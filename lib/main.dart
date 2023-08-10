@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:green_live_acs/component/farm_card.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 
 void main() {
   runApp(const MyApp());
@@ -32,7 +34,7 @@ class MyApp extends StatelessWidget {
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
 
-        colorScheme: ColorScheme.fromSeed(seedColor: Color(0xFF010726)),
+        colorScheme: ColorScheme.fromSeed(seedColor: Color(0xFF28A80A)),
         useMaterial3: true,
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
@@ -71,7 +73,21 @@ class _MyHomePageState extends State<MyHomePage> {
       _counter++;
     });
   }
+  List<_SalesData> data = [
+    _SalesData('Jan', 35),
+    _SalesData('Feb', 28),
+    _SalesData('Mar', 34),
+    _SalesData('Apr', 32),
+    _SalesData('May', 40)
+  ];
 
+  List<_SalesData> data2=[
+    _SalesData('Jan', 25),
+    _SalesData('Feb', 20),
+    _SalesData('Mar', 30),
+    _SalesData('Apr', 25),
+    _SalesData('May', 30)
+  ];
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context);
@@ -82,100 +98,176 @@ class _MyHomePageState extends State<MyHomePage> {
       "My pienaple Farm20",
       "My pienaple Farm22",
       "My pienaple Farm23",
+      "My pienaple Farm24",
+      "My pienaple Farm25",
       "My pienaple Farm23",
+      "My pienaple Farm24",
+      "My pienaple Farm25",
       "My pienaple Farm23",
+      "My pienaple Farm24",
+      "My pienaple Farm25",
+      "My pienaple Farm23",
+      "My pienaple Farm24",
+      "My pienaple Farm25",
+      "My pienaple Farm23",
+      "My pienaple Farm24",
+      "My pienaple Farm25",
+
+
+
+
+
 
     ];
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         //backgroundColor: Colors.black,
-        toolbarHeight: 150,
+        toolbarHeight: 100,
         leadingWidth: screenWidth,
-        leading: Padding(
-          padding: const EdgeInsets.all(25.0),
-          child: Column(
+
+        title: Padding(
+          padding:  EdgeInsets.fromLTRB(8, 120, 8, 120),
+          child: Row(
+            mainAxisAlignment:  MainAxisAlignment.spaceAround,
             children: [
-              Row(
-                children: [
-                  SizedBox(
-                    width: screenWidth * 0.70,
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Welcome Back",
-                            style: GoogleFonts.roboto(fontSize: 30),
-                          ),
-                          Text("ACS",
-                              style: GoogleFonts.roboto(
-                                  fontSize: 30, fontWeight: FontWeight.bold))
-                        ]),
-                  ),
-                  const Expanded(
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            height: 50,
-                            child: CircleAvatar(
-                              radius: 50,
-                              backgroundImage: AssetImage("assets/avatar.jpg"),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 40,
-                          ),
-                        ]),
-                  ),
-                ],
-              ),
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
-                  child: Divider(
-                      //thickness: 20,c
-                      ),
-                ),
-              )
-            ],
-          ),
+              Icon(Icons.arrow_back_ios_new),
+
+              Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      "My Pineapple Farm",
+                      style: GoogleFonts.roboto(fontSize: 25 ,  fontWeight: FontWeight.bold , color: Color(
+                          0xFF3E3E41)),
+                    ),
+                    Text("Douala 5 , Akwa boulevard",
+                      style: GoogleFonts.roboto(
+                          fontSize: 15, fontWeight: FontWeight.bold))
+                  ]),
+
+
+
+              IconButton(onPressed: (){}, icon: Icon(Icons.more_horiz_outlined))
+          ]),
         ),
       ),
-      body: Column(
-        children: [
-          SizedBox(
-            height: screenHeight * 0.45,
-            child: Card(
-              elevation: 0,
-              child: SingleChildScrollView(
-                child: Column(children: [
-                  ...farmList
-                      .map(
-                        (e) => Card(
-                            margin: EdgeInsets.fromLTRB(0, 15, 0, 10),
-                            elevation: 0,
-                            child: FarmCard()),
-                      )
-                      .toList(),
-                ]),
+
+      body:Center(
+        child: Column(
+          children: [
+
+
+            SizedBox(
+              width: screenWidth*0.95,
+              child: Card(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(8, 20, 8, 10),
+                      child: SizedBox(
+                        width: screenWidth * 0.90,
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("Harvest Stats", style: GoogleFonts.roboto(),),
+                              Chip(
+                                labelPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                                padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                                label:
+                                DropdownButton(
+                                  elevation: 0,
+                                  itemHeight:  48,
+                                  autofocus: true,
+                                  items: [
+                                    DropdownMenuItem(child: Text('Option 1'), value: 'Option 1'),
+                                    DropdownMenuItem(child: Text('Option 2'), value: 'Option 2'),
+                                    DropdownMenuItem(child: Text('Option 3'), value: 'Option 3'),
+                                  ],
+                                  value: 'Option 1',
+                                  onChanged: (value) {  },),
+                                avatar: Icon(Icons.calendar_month_rounded),
+
+                              )
+                            ]
+                        ),
+                      ),
+                    ),
+                    SfCartesianChart(
+
+                        primaryXAxis: CategoryAxis(),
+                        // Chart title
+                        title: ChartTitle(text: 'Half yearly sales analysis'),
+                        // Enable legend
+                        legend: Legend(isVisible: true),
+                        // Enable tooltip
+                        tooltipBehavior: TooltipBehavior(enable: true),
+                        series: <ChartSeries<_SalesData, String>>[
+                          BarSeries<_SalesData, String>(
+                              color: Colors.green,
+                              dataSource: data,
+                              xValueMapper: (_SalesData sales, _) => sales.year,
+                              yValueMapper: (_SalesData sales, _) => sales.sales,
+                              borderRadius: BorderRadius.circular(15),
+                              name: 'phosphore',
+
+                              // Enable data label
+                              dataLabelSettings: DataLabelSettings(isVisible: false)),
+                          BarSeries(dataSource: data2, xValueMapper: (_SalesData sales, _) => sales.year, yValueMapper: (_SalesData sales, _) => sales.sales,borderRadius: BorderRadius.circular(15),color: Colors.blue, name :"humidite" )
+                        ]),
+                  ],
+                ),
               ),
             ),
-          ),
-          SizedBox(
-            width: screenWidth * 0.9,
-              child: Card(
-                margin: EdgeInsets.fromLTRB(0, 60,  0, 0),
-                color: Color(0xFF000000),
-                  child: MaterialButton(
-                      onPressed: () {}, child: Text("+ Add Farm" , style: GoogleFonts.roboto(color: Colors.white,))))
+            SizedBox( height: 30,),
+            SizedBox(
+              width:  screenWidth*0.9,
+              child: Row(
+                children: [
+                  Text("Characteristics", style: GoogleFonts.roboto(fontSize: 20, fontWeight: FontWeight.w500),),
+                ]
+              ),
+            ),
 
-          )],
-      ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: _incrementCounter,
-      //   tooltip: 'Increment',
-      //   child: const Icon(Icons.add),
-      // ),
+            SizedBox(
+              width:  screenWidth*0.9,
+              child: Container(
+                child: Column(
+                  children: [
+
+                    Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                         Row(
+                           children: [
+
+                           ],
+                         )
+                          ],
+
+                        ),
+                      ),
+                    )
+
+                  ]
+                ),
+              ),
+            )
+
+    
+         
+          ]
+        ),
+      )
     );
   }
+}
+class _SalesData {
+  _SalesData(this.year, this.sales);
+
+  final String year;
+  final double sales;
 }

@@ -7,8 +7,10 @@ class FarmCard extends StatelessWidget {
 
   var state;
 
+  var Farm_name;
 
-  FarmCard ({ this.image , this.state});
+
+  FarmCard ({ this.image , this.state , this.Farm_name});
 
   @override
   Widget build(BuildContext context) {

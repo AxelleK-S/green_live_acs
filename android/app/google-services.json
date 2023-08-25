@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "287577280783",
+    "project_id": "green-live-acs",
+    "storage_bucket": "green-live-acs.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:287577280783:android:a86f60ceb97b798814ee7a",
+        "android_client_info": {
+          "package_name": "com.example.green_live_acs"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "287577280783-p3a6c567kkqujr74vogeemkg2o722276.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTP4MEE-sRkU00D5kYCY3z3JX94lZxS9g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "287577280783-5ef66gb2jig2i6qkb0canhva57adups1.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "287577280783-6hfgm5rifv73e99tt5m3jup3pf1v8cab.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.greenLiveAcs"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

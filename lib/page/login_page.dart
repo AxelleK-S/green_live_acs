@@ -2,8 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:green_live_acs/model/user_repository.dart';
+import 'package:green_live_acs/repository/user_repository.dart';
 import 'package:green_live_acs/page/loading_page.dart';
+import 'package:green_live_acs/ressouces/my_colors.dart';
 
 import '../Service/Auth/login_bloc.dart';
 
@@ -79,6 +80,7 @@ LoginPage({required this.userRepository});
                             "Create an account ",
                             style: GoogleFonts.poppins(
                                 fontWeight: FontWeight.bold,
+                                color: MyColors.primaryColor,
                                 decoration: TextDecoration.underline),
                           ),
                         )
@@ -128,7 +130,8 @@ LoginPage({required this.userRepository});
                           "Forgot password? ",
                           style: GoogleFonts.poppins(
                               fontWeight: FontWeight.w500,
-                              decoration: TextDecoration.underline),
+                              decoration: TextDecoration.underline,
+                              color: MyColors.primaryColor),
                         ),
                       ),
                     ),
@@ -138,7 +141,7 @@ LoginPage({required this.userRepository});
                           width: screenWidth * 0.9,
                           child: Card(
                               margin: EdgeInsets.fromLTRB(0, 15, 0, 0),
-                              color: Color(0xFF8FB46A),
+                              color: MyColors.primaryColor,
                               child: MaterialButton(
                                   onPressed: () {
                                  context.read<LoginBloc>().add(LoginEmit(

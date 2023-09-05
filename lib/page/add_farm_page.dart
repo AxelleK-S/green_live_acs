@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:green_live_acs/model/Farm.dart';
 import 'package:green_live_acs/page/dashborad.dart';
+import 'package:green_live_acs/ressouces/my_colors.dart';
 
 import '../Service/FarmBloc/farm_bloc.dart';
 
@@ -32,7 +33,6 @@ class AddFarmPage extends StatelessWidget {
         builder: (context, state) {
           return Scaffold(
             appBar: AppBar(
-
               //backgroundColor: Colors.black,
               toolbarHeight: 150,
               leadingWidth: screenWidth,
@@ -54,7 +54,8 @@ class AddFarmPage extends StatelessWidget {
                                 Text("ACS",
                                     style: GoogleFonts.roboto(
                                         fontSize: 30,
-                                        fontWeight: FontWeight.bold))
+                                        fontWeight: FontWeight.bold,
+                                        color: MyColors.primaryColor)),
                               ]),
                         ),
                         const Expanded(
@@ -92,16 +93,20 @@ class AddFarmPage extends StatelessWidget {
               builder: (context, state) {
                 context.read<FarmBloc>().add(FarmBegin());
                 return Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                   child: SizedBox(
-                    height: screenHeight,
+                    height: screenHeight - 55,
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         BlocBuilder<FarmBloc, FarmState>(
                           builder: (context, state) {
                             if (state is FarmPresent)
-                              return SizedBox(
-                                height: screenHeight * 0.65,
+                              return Container(
+                                constraints: BoxConstraints(
+                                  maxHeight: screenHeight * 0.65,
+                                ),
+                                // height: 10,
                                 child: SingleChildScrollView(
                                   child: Column(children: [
                                     ...state.farm
@@ -130,24 +135,33 @@ class AddFarmPage extends StatelessWidget {
                                   ]),
                                 ),
                               );
-                            else
-                              return CircularProgressIndicator();
+                            else {
+                              return SizedBox(
+                                  width: screenWidth,
+                                  child: Center(
+                                    child: CircularProgressIndicator(),
+                                  ));
+                            }
                           },
                         ),
-                        Align(
-                          alignment: Alignment.bottomCenter,
-                          child: SizedBox(
-                              width: screenWidth * 0.9,
-                              child: Card(
-                                  margin: EdgeInsets.fromLTRB(0, 15, 0, 0),
-                                  color: Color(0xFF000000),
-                                  child: MaterialButton(
-                                     onPressed: (){ Navigator.push(context, PageRouteBuilder(pageBuilder: (_,__,___)=>AddFormPage()));                                },
-                                      child: Text("+ Add Farm",
-                                          style: GoogleFonts.roboto(
+                        SizedBox(
+                            width: screenWidth * 0.9,
+
+                            child: Card(
+                                margin: EdgeInsets.fromLTRB(0, 0, 0, 120),
+                                color: MyColors.primaryColor,
+                                child: MaterialButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          PageRouteBuilder(
+                                              pageBuilder: (_, __, ___) =>
+                                                  AddFormPage()));
+                                    },
+                                    child: Text("+ Add Farm",
+                                        style: GoogleFonts.roboto(
                                             color: Colors.white,
-                                          ))))),
-                        )
+                                            fontSize: 20)))))
                       ],
                     ),
                   ),

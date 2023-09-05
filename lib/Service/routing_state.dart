@@ -41,8 +41,8 @@ class RoutingMain extends RoutingState {
   List<Object?> get props => [];
 
   RoutingMain({required FirebaseFirestore db}) {
-    super.page = AddFarmPage(db: db);
-    //super.page = AddFormPage();
+    //super.page = AddFarmPage(db: db);
+    super.page = Accueil(db);
   }
 }
 class RoutingDashboard extends RoutingState {

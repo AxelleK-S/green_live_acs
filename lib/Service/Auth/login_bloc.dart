@@ -5,7 +5,8 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../model/user_repository.dart';
+import '../../repository/user_repository.dart';
+import '../../page/Accueil.dart';
 import '../../page/add_farm_page.dart';
 import '../../page/dashborad.dart';
 import '../../page/loading_page.dart';
@@ -24,7 +25,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       try{
         emit(LoginPressed());
         print("object");
-        await  userRepository.signInWithCredentials(event.email, event.password);
+        await userRepository.signInWithCredentials(event.email, event.password);
 
         if (userRepository.isLoggedIn()) {
 

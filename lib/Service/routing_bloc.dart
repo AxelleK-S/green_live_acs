@@ -5,7 +5,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
 import 'package:flutter/cupertino.dart';
-import 'package:green_live_acs/model/user_repository.dart';
+import 'package:green_live_acs/repository/user_repository.dart';
+import 'package:green_live_acs/page/Accueil.dart';
 import 'package:green_live_acs/page/add_form_page.dart';
 import 'package:green_live_acs/page/loading_page.dart';
 import 'package:green_live_acs/page/sign_up_page.dart';

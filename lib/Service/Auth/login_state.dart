@@ -20,7 +20,7 @@ class LoginPressed extends LoginState{
 }
 class LoginSucefull extends LoginState{
   LoginSucefull({required FirebaseFirestore db}){
-    super.page =AddFarmPage(db: db,);
+    super.page =Accueil(db,);
   }
   // LoginInitial(){
   //   super.page = LoadPage();

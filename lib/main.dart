@@ -35,7 +35,15 @@ class MyApp extends StatelessWidget {
     UserRepository userRepository = UserRepository(db: db);
     FarmRepository farmRepository = FarmRepository(db: db);
    // final RoutingBloc navigationBloc = BlocProvider.of<RoutingBloc>(context);
-    return MaterialApp(
+
+    return
+      MultiBlocProvider(
+        providers: [
+          BlocProvider<RoutingBloc>(create: (context) => RoutingBloc(db)),
+          BlocProvider<LoginBloc>(create: (context) =>LoginBloc(userRepository: userRepository)),
+          BlocProvider(create: (context) => AddFarmBloc(farmRepository: farmRepository)),
+        ],
+        child: MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
 
@@ -44,13 +52,10 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Color(0xFF28A80A)),
         useMaterial3: true,
       ),
-      home: MultiBlocProvider(
-        providers: [
-          BlocProvider<RoutingBloc>(create: (context) => RoutingBloc(db)),
-          BlocProvider<LoginBloc>(create: (context) =>LoginBloc(userRepository: userRepository)),
-          BlocProvider(create: (context) => AddFarmBloc()),
-        ],
-        child: BlocBuilder<RoutingBloc,RoutingState>(
+      home:
+
+
+        BlocBuilder<RoutingBloc,RoutingState>(
           builder:(context , state ){
             context.read<RoutingBloc>().add(RoutingMainEvent());
             if(state is RoutingDashboard){

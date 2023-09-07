@@ -104,7 +104,7 @@ class AddFarmPage extends StatelessWidget {
                             if (state is FarmPresent)
                               return Container(
                                 constraints: BoxConstraints(
-                                  maxHeight: screenHeight * 0.65,
+                                  maxHeight: screenHeight * 0.55,
                                 ),
                                 // height: 10,
                                 child: SingleChildScrollView(

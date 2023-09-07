@@ -19,7 +19,7 @@ class Farm {
   String? location;
   String? name;
   String? state;
-  int? superficie;
+  String? superficie;
   String? userId;
 
   Farm.fromJson(dynamic json) {

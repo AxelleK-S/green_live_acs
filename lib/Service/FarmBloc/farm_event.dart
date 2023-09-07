@@ -10,8 +10,4 @@ class FarmBegin extends FarmEvent{
 
 }
 
-class FarmCreateBegin extends FarmEvent{
-  @override
-  // TODO: implement props
-  List<Object?> get props => [];
-}
+

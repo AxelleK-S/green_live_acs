@@ -7,7 +7,7 @@ class InputFromText extends StatelessWidget{
   String title;
   String hintText;
   InputFromText({required this.title,required this.hintText});
-  late TextEditingController data ;
+   TextEditingController data  = TextEditingController();
   @override
   Widget build(BuildContext context) {
 
@@ -39,6 +39,7 @@ class InputFromText extends StatelessWidget{
               child:Padding(
                 padding: const EdgeInsets.fromLTRB(8,5, 0, 0),
                 child: TextField(
+                  controller: data,
                     decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: hintText,

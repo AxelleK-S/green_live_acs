@@ -14,9 +14,9 @@ class FarmBloc extends Bloc<FarmEvent, FarmState> {
 
     on<FarmBegin>((event, emit) async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      String id =await prefs.getString('email')!;
+      String? id =await prefs.getString('email');
 
-      var farm =   await Farm.GetFarmBYUserId(id, db);
+      var farm =   await Farm.GetFarmBYUserId(id!, db);
 
  emit(FarmPresent(farm : farm));
       // TODO: implement event handler

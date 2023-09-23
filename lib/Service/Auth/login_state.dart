@@ -10,7 +10,7 @@ class LoginInitial extends LoginState {
   UserRepository userRepository;
 
   LoginInitial({required this.userRepository}){
-    super.page = LoginPage(userRepository: userRepository);
+    super.page = LoginPage();
   }
 }
 class LoginPressed extends LoginState{
@@ -29,9 +29,7 @@ class LoginSucefull extends LoginState{
 }
 
 class LoginFailed extends LoginState{
-  UserRepository userRepository;
-  LoginFailed({required this.userRepository}){
-    super.page = LoginPage(userRepository: userRepository);
-  }
+
+
 
 }

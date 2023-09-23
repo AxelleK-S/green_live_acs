@@ -4,6 +4,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 
 class UserRepository {
@@ -15,7 +16,13 @@ class UserRepository {
 
  late CollectionReference farmsRef;
 
-  UserRepository({FirebaseAuth? firebaseAuth , required this.db}){
+ late  String name;
+
+  var storage;
+
+  var user;
+
+  UserRepository({FirebaseAuth? firebaseAuth , required this.db, required storage}){
     _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance;
 
     farmsRef = db.collection('Farm');
@@ -32,11 +39,28 @@ class UserRepository {
     );
   }
 
-  Future<void> signUp(String email, String password) {
-    return _firebaseAuth.createUserWithEmailAndPassword(
+  Future<UserCredential> signUp(String name ,String email, String password , image) async {
+    this.name = name ;
+    UserCredential userCredentials = await _firebaseAuth.createUserWithEmailAndPassword(
+
       email: email,
       password: password,
     );
+
+    String? userId;
+    await  this.storage.ref().child(image.path)
+        .putFile(image).then((p0) async =>
+    {
+      p0.ref.getDownloadURL().then((value) async => {
+     userId = userCredentials.user?.uid,
+    await this.db.collection('users').doc(email).set({
+    'name': this.name,
+      'image':value
+    })
+      })
+    });
+
+    return userCredentials ;
   }
 
   Future<Future<List<void>>> signOut() async {

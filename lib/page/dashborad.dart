@@ -32,6 +32,7 @@ class DashboardPage extends StatelessWidget {
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
+          forceMaterialTransparency: true,
           automaticallyImplyLeading: false,
           //backgroundColor: Colors.black,
           toolbarHeight: 100,
@@ -77,6 +78,7 @@ class DashboardPage extends StatelessWidget {
                     width: screenWidth * 0.95,
                     height: screenHeight * 0.45,
                     child: Card(
+                      elevation: 0,
                       child: Column(
                         children: [
                           Padding(

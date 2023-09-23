@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -22,11 +23,20 @@ class FarmCard extends StatelessWidget {
       child: Row(
         children:  [
 
-          SizedBox(
-            height: 58,
-            child: CircleAvatar(
-              radius: 50,
-              backgroundImage: NetworkImage(image!),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+            child: SizedBox(
+              height: 58,
+              width: 58,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(50),
+                child: CachedNetworkImage(
+                  fit: BoxFit.cover,
+                  imageUrl: image!,
+                  placeholder: (context, url) => CircularProgressIndicator(),
+                  errorWidget: (context, url, error) => Icon(Icons.error),
+                ),
+              ),
             ),
           ),
          // SizedBox(width: 3,),

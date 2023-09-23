@@ -2,7 +2,7 @@ part of 'routing_bloc.dart';
 
 abstract class RoutingState extends Equatable {
   late Widget page;
-  RoutingState() {}
+
 }
 
 class RoutingInitial extends RoutingState {
@@ -12,8 +12,21 @@ class RoutingInitial extends RoutingState {
 
  late Widget addFarmPage;
 
-  RoutingInitial() {
-    super.page = LoadPage();
+  RoutingInitial(FirebaseFirestore db , UserRepository userRepository) {
+      super.page = LoadPage();
+      SharedPreferences.getInstance().then((value) {
+        bool isAuthenticated  = value.containsKey(_accessTokenKey);
+        print("home aweet homwe");
+        if (isAuthenticated) {
+          print("nice to meet you");
+          super.page = Accueil(db);
+        } else {
+          print("bad news");
+          super.page = LoginPage();
+        }
+
+      });
+
   //  checkAuthenticationStatus();
   }
 
@@ -30,7 +43,7 @@ class RoutingLogin extends RoutingState {
   List<Object?> get props => [];
 
   RoutingLogin({required this.userRepository}) {
-    super.page = LoginPage(userRepository: userRepository);
+    super.page = LoginPage();
   }
 
 }
@@ -51,8 +64,33 @@ class RoutingDashboard extends RoutingState {
     super.page = dashboardPage;
   }
 
+
+
   @override
   // TODO: implement props
   List<Object?> get props => [];
 
+}
+class RoutingAddFarm extends RoutingState {
+  var index;
+
+  RoutingAddFarm(index) {
+    super.page = AddFormPage();
+    this.index = index ;
+  }
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [index , super.page];
+
+}
+class RoutingHome extends RoutingState {
+
+  RoutingHome(Widget page){
+    super.page = page;
+  }
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
 }

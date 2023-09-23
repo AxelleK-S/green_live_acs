@@ -12,6 +12,7 @@ class DataComposant extends StatelessWidget{
     return SizedBox(
       height: 100,
       child: Card(
+        elevation: 0.02,
         shadowColor: Colors.white,
        // semanticContainer: false,
         //elevation: 3,

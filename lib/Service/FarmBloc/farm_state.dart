@@ -19,7 +19,7 @@ class FarmPresent extends FarmState{
   FarmPresent({ required this.farm});
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [farm];
 }
 
 class FarmSubmitSuccefuly extends FarmState{

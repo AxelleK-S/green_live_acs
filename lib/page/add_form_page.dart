@@ -1,5 +1,8 @@
 import 'dart:io';
 
+import 'package:appwrite/appwrite.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,6 +15,10 @@ import 'package:green_live_acs/ressouces/my_colors.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../Service/FarmBloc/farm_bloc.dart';
+import '../Service/routing_bloc.dart';
+import '../repository/farm_repository.dart';
+
 class AddFormPage extends StatelessWidget {
   TextEditingController MenuController = TextEditingController();
   var name = InputFromText(title: 'name', hintText: 'Enter farm name');
@@ -20,6 +27,7 @@ class AddFormPage extends StatelessWidget {
   var passeword = InputFromText(title: 'password', hintText: 'Enter password');
 
   late File _image;
+
   @override
   build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context);
@@ -43,7 +51,7 @@ class AddFormPage extends StatelessWidget {
                   width: screenWidth,
                   height: 380,
                   child:
-                      Stack(alignment: AlignmentDirectional.center, children: [
+                  Stack(alignment: AlignmentDirectional.center, children: [
                     // Positioned(
                     //     left: 100,
                     //     child: IconButton(
@@ -62,11 +70,11 @@ class AddFormPage extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: MyColors.primaryColor,
                           borderRadius:
-                              BorderRadius.all(Radius.elliptical(280, 190)),
+                          BorderRadius.all(Radius.elliptical(280, 190)),
                         ),
                         child:
-                            //SizedBox(height: 10,),
-                            Column(
+                        //SizedBox(height: 10,),
+                        Column(
                           children: [
                             SizedBox(
                                 height: 400,
@@ -82,6 +90,7 @@ class AddFormPage extends StatelessWidget {
           ),
           appBar: AppBar(
               centerTitle: false,
+              forceMaterialTransparency: true,
               //automaticallyImplyLeading: false,
 
               //  backgroundColor: Colors.blue,
@@ -100,7 +109,7 @@ class AddFormPage extends StatelessWidget {
                         alignment: AlignmentDirectional.center,
                         children: [
                           Positioned(
-                              //left: 100,
+                            //left: 100,
                               child: IconButton(
                                   onPressed: () {
                                     Navigator.pop(context);
@@ -121,12 +130,13 @@ class AddFormPage extends StatelessWidget {
                                     Radius.elliptical(280, 190)),
                               ),
                               child:
-                                  //SizedBox(height: 10,),
-                                  Column(
+                              //SizedBox(height: 10,),
+                              Column(
                                 children: [
                                   SizedBox(
                                       height: 400,
-                                      child: Image.asset("assets/culture.png")),
+                                      child: Image.asset(
+                                          "assets/culture.png")),
                                 ],
                               ),
                             ),
@@ -139,21 +149,24 @@ class AddFormPage extends StatelessWidget {
             child: SingleChildScrollView(
               child: SizedBox(
                 width: screenWidth * 0.85,
-                height: screenHeight * 0.7,
+                height: screenHeight * 0.8,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Column(
-                      children: [
-                        SizedBox(
-                          height: 30,
-                        ),
-                        Text("Add a new farm",
-                            style: GoogleFonts.roboto(
-                                fontSize: 30,
-                                color: MyColors.primaryColor,
-                                fontWeight: FontWeight.bold)),
-                      ],
+
+                    SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 30,
+                          ),
+                          Text("Add a new farm",
+                              style: GoogleFonts.roboto(
+                                  fontSize: 30,
+                                  color: MyColors.primaryColor,
+                                  fontWeight: FontWeight.bold)),
+                        ],
+                      ),
                     ),
                     LayoutBuilder(
                       builder: (context, constraints) {
@@ -162,11 +175,12 @@ class AddFormPage extends StatelessWidget {
                           print(width);
                           return Column(
                             children: [
+
                               Column(
                                 children: [
                                   Column(
                                     mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
+                                    MainAxisAlignment.spaceEvenly,
                                     children: [
                                       name,
                                       Row(children: [
@@ -181,10 +195,10 @@ class AddFormPage extends StatelessWidget {
                                               //   menuHeight: 50,
                                               menuStyle: MenuStyle(
                                                   padding:
-                                                      MaterialStateProperty.all(
-                                                          EdgeInsets.zero)),
+                                                  MaterialStateProperty.all(
+                                                      EdgeInsets.zero)),
                                               width: width * 0.5,
-                                              hintText: 'superficie',
+                                              hintText: 'culture',
                                               dropdownMenuEntries: [
                                                 DropdownMenuEntry(
                                                     value: 'patate',
@@ -205,16 +219,18 @@ class AddFormPage extends StatelessWidget {
                                         width: 70,
                                         child: CircleAvatar(
                                           backgroundColor:
-                                              MyColors.primaryColor,
+                                          MyColors.primaryColor,
                                           radius: 50,
                                           child: IconButton(
                                               onPressed: () {
-
-                                                ImagePicker().pickImage(source: ImageSource.gallery).then((value) {
-                                                 final  image = File(value!.path);
-                                                 _image = image ;
+                                                ImagePicker().pickImage(
+                                                    source: ImageSource
+                                                        .camera).then((
+                                                    value) {
+                                                  final image = File(
+                                                      value!.path);
+                                                  _image = image;
                                                 });
-
                                               },
                                               icon: Icon(
                                                 Icons.link_sharp,
@@ -246,19 +262,22 @@ class AddFormPage extends StatelessWidget {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15)),
                           onPressed: () async {
-
                             var user = await SharedPreferences.getInstance();
-                            context.read<AddFarmBloc>().add(FarmCreate(
-                                farm: Farm(
-                                    cultureId: this.MenuController.text,
-                                    name: this.name.data.text,
-                                    kitId: this.Kit_id.data.text,
-                                    superficie: this.superficie.data.text,
-                                    state: 'semit',
-                                    userId: user.getString('email'),
-                                  image: _image.path
+                            context.read<AddFarmBloc>().add(
+                                FarmCreate(
+                                    farm: Farm(
+                                        cultureId: this.MenuController.text,
+                                        name: this.name.data.text,
+                                        kitId: this.Kit_id.data.text,
+                                        superficie: this.superficie.data.text,
+                                        state: 'semit',
+                                        userId: user.getString('email'),
+                                        location: ''
 
-                                )));
+
+                                    ),
+
+                                    image: _image));
                           },
                           child: Text("Submit")),
                     )
@@ -269,9 +288,25 @@ class AddFormPage extends StatelessWidget {
           ),
           backgroundColor: Colors.white,
         );
-      } else {
+      } else if (state is AddFarmFailed) {
+        print(state.e);
+        return Scaffold(body: Center(child: Text(state.e)));
+      } else if (state is AddFarmSuccess) {
+        //je renitialise le state de cette page  car si je ne le fait pas lors de l'ouverture de cette page elle restera sur le dernier state
+        context.read<AddFarmBloc>().add(Init());
+        //je rafraichi la page des farmes pour mettre a jour les donnes resssus
+        context.read<FarmBloc>().add(FarmBegin());
+        //je ferme la page
+        Navigator.pop(context);
+        } else if (state is AddFarmBegin) {
         return state.state;
       }
-    });
+
+      return const Scaffold(
+        body: Center(child: Text('data'),),
+      );
+    }
+
+    );
   }
 }

@@ -21,4 +21,18 @@ class LoginEmit extends LoginEvent{
 
 }
 
+class DelToken extends LoginEvent{
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
+}
+
+
+class LoginInit extends LoginEvent{
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
+
+}
+
 

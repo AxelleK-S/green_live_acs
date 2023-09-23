@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:green_live_acs/ressouces/my_colors.dart';
 
+import 'culture_details.dart';
+
 class CulturePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -86,37 +88,40 @@ class CulturePage extends StatelessWidget {
                                             fontSize: 25,
                                             fontWeight: FontWeight.w500)),
                                     ...culture
-                                        .map((e) => SizedBox(child: SizedBox(
+                                        .map((e) => GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(context, PageRouteBuilder(pageBuilder: (_, __, ___) => CultureDetails()));
+                                          },
+                                          child: SizedBox(child: SizedBox(
                                       height:110,
-                                          child: Card(
-                                            margin: EdgeInsets.fromLTRB(0, 0, 0, 20),
+                                            child: Card(
+                                              margin: EdgeInsets.fromLTRB(0, 0, 0, 20),
 
                                       color: Colors.black,
                                       child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
 
-                                              children: [
-                                              Builder(builder: (context) {
-                                                var mediaQuery = MediaQuery.of(context);
-                                                double widgetnWidth = mediaQuery.size.width;
-                                                double widgetHeight = mediaQuery.size.height;
-                                                return SizedBox(
-                                                  width: widgetnWidth * 0.42,
-                                                  child: Row(
-                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                    children: [
-                                                      Image.asset(
-                                                          "assets/ananas.png"
+                                                children: [
+                                                Builder(builder: (context) {
+                                                  var mediaQuery = MediaQuery.of(context);
+                                                  double widgetnWidth = mediaQuery.size.width;
+                                                  double widgetHeight = mediaQuery.size.height;
+                                                  return SizedBox(
+                                                    width: widgetnWidth * 0.409,
+                                                    child: Row(
+                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                      children: [
+                                                        Image.asset(
+                                                            "assets/an.png"
 
-                                                      ),
+                                                        ),
 
-                                                      Column(
-                                                          mainAxisAlignment: MainAxisAlignment.center,
-                                                          children: [
-                                                            Flexible(
-                                                              child: Text(
+                                                        Column(
+                                                            mainAxisAlignment: MainAxisAlignment.center,
+                                                            children: [
+                                                              Text(
                                                                 e, style: GoogleFonts.roboto(
                                                                   color: Colors.white,
                                                                   fontSize: 20,
@@ -124,46 +129,46 @@ class CulturePage extends StatelessWidget {
                                                               ),
 
                                                               ),
-                                                            ),
-                                                            Row(
-                                                                children: [
-                                                                  Icon(Icons.water_drop_outlined, color: Color(0xFFBEBEBE),size: 15,),
-                                                                  Text(
-                                                                      "200 mol", style: GoogleFonts.roboto(
-                                                                      color: Color(0xFFBEBEBE)
-                                                                  )
-                                                                  )
-                                                                ]
-                                                            )
-                                                          ]
-                                                      )
-                                                    ]
-                                                  ),
-                                                );
-                                              }),
+                                                              Row(
+                                                                  children: [
+                                                                    Icon(Icons.water_drop_outlined, color: Color(0xFFBEBEBE),size: 15,),
+                                                                    Text(
+                                                                        "200 mol", style: GoogleFonts.roboto(
+                                                                        color: Color(0xFFBEBEBE)
+                                                                    )
+                                                                    )
+                                                                  ]
+                                                              )
+                                                            ]
+                                                        )
+                                                      ]
+                                                    ),
+                                                  );
+                                                }),
 
-                                                Expanded(
-                                                  child: Padding(
-                                                    padding: const EdgeInsets.fromLTRB(60, 0, 0, 0),
-                                                    child: SizedBox(
-                                                      height: 50,
-                                                      child: CircleAvatar(
-                                                        backgroundColor: Colors.white,
-                                                        radius: 50,
-                                                        child: Icon(Icons.water_drop_outlined, color: Colors.black,),
+                                                  Expanded(
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.fromLTRB(60, 0, 0, 0),
+                                                      child: SizedBox(
+                                                        height: 50,
+                                                        child: CircleAvatar(
+                                                          backgroundColor: Colors.white,
+                                                          radius: 50,
+                                                          child: Icon(Icons.water_drop_outlined, color: Colors.black,),
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                )
+                                                  )
 
 
 
 
-                                            ]
-                                          )
+                                              ]
+                                            )
                                       ),
                                     ),
-                                        )))
+                                          )),
+                                        ))
                                   ],
                                 ),
                               ),

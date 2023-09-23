@@ -1,4 +1,6 @@
 
+import 'dart:ffi';
+
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
@@ -17,10 +19,13 @@ part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   UserRepository userRepository;
+  FirebaseFirestore db;
 
 
-  LoginBloc({ required this.userRepository}) : super(LoginInitial(userRepository: userRepository)) {
+  LoginBloc({ required this.userRepository , required this.db}) : super(LoginInitial(userRepository: userRepository)) {
     on<LoginEmit>((event, emit) async {
+
+
       // TODO: implement event handler
       try{
         emit(LoginPressed());
@@ -31,15 +36,30 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
           SharedPreferences prefs = await SharedPreferences.getInstance();
           prefs.setString('email', event.email);
+
+
+
           emit(LoginSucefull(db: userRepository.db));
           print("successfully");
         } else {
-          emit(LoginFailed(userRepository: userRepository));
+          emit(LoginFailed());
         }
       }catch(e){
-        emit(LoginFailed(userRepository: userRepository));
+        print(e);
+        emit(LoginFailed());
       }
   });
 
+    on<LoginInit>((event, emit) => emit(LoginInitial(userRepository: userRepository)));
+    on<DelToken>((event, emit) async {
+
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+
+      prefs.remove('email');
+    });
+
 }
+
 }
+
+

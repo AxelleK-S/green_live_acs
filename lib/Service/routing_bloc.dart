@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:green_live_acs/repository/user_repository.dart';
@@ -20,30 +22,28 @@ part 'routing_event.dart';
 part 'routing_state.dart';
 
 class RoutingBloc extends Bloc<RoutingEvent, RoutingState> {
+  int index =0 ;
 
   static const String _accessTokenKey = 'email';
 
-  RoutingBloc(FirebaseFirestore db) : super(RoutingInitial()) {
-    on<RoutingMainEvent>((event , emit) async {
+  RoutingBloc(FirebaseFirestore db , UserRepository userRepository) : super(RoutingInitial(db, userRepository)) {
 
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      bool isAuthenticated = prefs.containsKey(_accessTokenKey);
-      print("home aweet homwe");
-      if (isAuthenticated) {
-        print("nice to meet you");
-        emit(RoutingMain(db: db));
-      } else {
-        print("bad news");
-        emit(RoutingLogin(userRepository: UserRepository(db: db)));
-      }
-
-    });
+    on<RoutingMainEvent>((event, emit) => emit((RoutingInitial(db, userRepository))));
     on<ViewDashboard>((event, emit) {
       // TODO: implement event handler
       print("ok");
       emit(RoutingDashboard());
 
     });
+
+    on<Login>((event, emit) => emit(RoutingLogin(userRepository: userRepository)));
+    on<GoHome>((event, emit) => emit(RoutingHome(Accueil(db))));
+    on<AddForm>((event, emit)
+
+    {
+      print('add farm page !!!!!!!!!!!!!');
+      index++ ;
+      emit(RoutingAddFarm(index));});
 
     //on<ViewDashboard>((event, emit) => emit(RoutingDashboard()));
   }

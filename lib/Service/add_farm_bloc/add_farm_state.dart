@@ -27,10 +27,12 @@ class AddFarmBegin extends AddFarmState {
 }
 
 class AddFarmSuccess extends AddFarmState {
-  AddFarmSuccess({required super.state});
+  Farm farm ;
+  AddFarmSuccess({required super.state , required this.farm});
+
 
   @override
-  List<Object> get props => [super.state];
+  List<Object> get props => [super.state , this.farm];
 }
 
 class AddFarmFailed extends AddFarmState {

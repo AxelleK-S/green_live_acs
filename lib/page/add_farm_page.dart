@@ -101,18 +101,18 @@ class AddFarmPage extends StatelessWidget {
           return Padding(
             padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
             child: SizedBox(
-              height: screenHeight - 55,
+              height: screenHeight*0.84,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   BlocBuilder<FarmBloc, FarmState>(
                     builder: (context, state) {
-                      if (state is FarmPresent)
+                      if (state is FarmPresent) {
                         return Container(
                           constraints: BoxConstraints(
                             maxHeight: screenHeight * 0.55,
                           ),
-                          // height: 10,
+                          height: screenHeight*0.54,
                           child: (state.farm.isNotEmpty)?SingleChildScrollView(
                             child: Column(children: [
 
@@ -141,10 +141,12 @@ class AddFarmPage extends StatelessWidget {
                                   .toList(),
                             ]),
                           ): Center(
-                            child: SizedBox(child: Image.asset('assets/empty.png')),
+                            child: SizedBox(
+                                height: screenHeight*0.44,
+                                child: Image.asset('assets/empty.png')),
                           ),
                         );
-                      else {
+                      } else {
                         return SizedBox(
                             width: screenWidth,
                             child: Center(

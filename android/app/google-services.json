@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "287577280783",
+    "firebase_url": "https://green-live-acs-default-rtdb.firebaseio.com",
     "project_id": "green-live-acs",
     "storage_bucket": "green-live-acs.appspot.com"
   },

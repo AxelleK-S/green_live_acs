@@ -7,6 +7,7 @@ import 'package:green_live_acs/Service/Auth/sing_up/sign_up_bloc.dart';
 import 'package:green_live_acs/Service/FarmBloc/farm_bloc.dart';
 import 'package:green_live_acs/Service/accueil/accueil_bloc.dart';
 import 'package:green_live_acs/Service/add_farm_bloc/add_farm_bloc.dart';
+import 'package:green_live_acs/Service/data_manage/data_manage_bloc.dart';
 import 'package:green_live_acs/Service/menu/menu_bloc.dart';
 import 'package:green_live_acs/Service/routing_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -68,7 +69,8 @@ class MyApp extends StatelessWidget {
             create: (context) => MenuBloc(listButton: [true, false, false])
         ),
         BlocProvider(create: (context) => AccueilBloc(db)),
-        BlocProvider(create: (context)=> SignUpBloc(userRepository, db, storage))
+        BlocProvider(create: (context)=> SignUpBloc(userRepository, db, storage)),
+        BlocProvider(create: (context)=>DataManageBloc())
       
       ],
       child: MaterialApp(

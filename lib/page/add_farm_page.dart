@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:green_live_acs/model/Farm.dart';
@@ -9,6 +10,7 @@ import 'package:green_live_acs/ressouces/my_colors.dart';
 
 import '../Service/FarmBloc/farm_bloc.dart';
 
+import '../Service/data_manage/data_manage_bloc.dart';
 import '../Service/routing_bloc.dart';
 import '../component/farm_card.dart';
 import 'add_form_page.dart';
@@ -112,7 +114,7 @@ class AddFarmPage extends StatelessWidget {
                           constraints: BoxConstraints(
                             maxHeight: screenHeight * 0.55,
                           ),
-                          height: screenHeight*0.54,
+                          height: screenHeight*0.46,
                           child: (state.farm.isNotEmpty)?SingleChildScrollView(
                             child: Column(children: [
 
@@ -125,18 +127,21 @@ class AddFarmPage extends StatelessWidget {
                                         elevation: 0,
                                         child: FarmCard(
                                           function: () {
+                                            context.read<DataManageBloc>().add(DataManageRenewCredential(credentials: e.kitId));
                                             Navigator.push(
                                                 context,
                                                 PageRouteBuilder(
+                                                  settings: RouteSettings(name: "kitID", arguments: e.kitId),
                                                   pageBuilder:
-                                                      (__, ___, ____) =>
-                                                          DashboardV2(),
+                                                      (__, ___, ____) => DashboardV2(),
                                                 ));
                                           },
                                           image: e.image,
                                           state: e.cultureId,
                                           Farm_name: e.name,
-                                        )),
+                                        ))
+                                .animate()
+                                .slideX( duration: Duration(milliseconds: 500), curve: Curves.easeOutBack),
                                   )
                                   .toList(),
                             ]),
@@ -173,7 +178,9 @@ class AddFarmPage extends StatelessWidget {
                                 child: Text("+ Add Farm",
                                     style: GoogleFonts.roboto(
                                         color: Colors.white,
-                                        fontSize: 20))))),
+                                        fontSize: 20)))))
+                    .animate()
+                    .slideY(duration: Duration(milliseconds: 500), curve: Curves.easeOutBack),
                   )
                 ],
               ),

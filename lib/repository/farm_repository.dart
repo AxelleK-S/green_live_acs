@@ -19,7 +19,7 @@ class FarmRepository {
   Future<Response> GetFarmBYUserId(String id) async {
     List<Farm>? Farmlist = [];
 
-    CollectionReference farmsRef = db.collection('Farm');
+    //CollectionReference farmsRef = db.collection('Farm');
     // await farmsRef.where('userId', isEqualTo: id).get().then((snapshot) {
     //   // Itère sur les documents dans la snapshot.
     //   for (var doc in snapshot.docs) {
@@ -44,7 +44,7 @@ class FarmRepository {
       print(response.data);
       final createdFarm = Farm.fromJson(response.data);
 
-      db.collection('Farm').add(createdFarm.toJson());
+    //  db.collection('Farm').add(createdFarm.toJson());
       return createdFarm ;
 
     //

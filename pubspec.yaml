@@ -54,6 +54,7 @@ dependencies:
   cached_network_image: ^3.2.3
   percent_indicator: ^4.2.3
   dio: ^5.3.3
+  web_socket_channel: ^2.4.0
 
 dev_dependencies:
   flutter_test:

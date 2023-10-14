@@ -54,7 +54,6 @@ class AddFarmPage extends StatelessWidget {
                               "Welcome Back",
                               style: GoogleFonts.roboto(fontSize: 30),
                             ),
-
                             Text("ACS",
                                 style: GoogleFonts.roboto(
                                     fontSize: 30,
@@ -98,12 +97,11 @@ class AddFarmPage extends StatelessWidget {
       ),
       body: BlocBuilder<FarmBloc, FarmState>(
         builder: (context, state) {
-          if(state is FarmInitial)
-          context.read<FarmBloc>().add(FarmBegin());
+          if (state is FarmInitial) context.read<FarmBloc>().add(FarmBegin());
           return Padding(
             padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
             child: SizedBox(
-              height: screenHeight*0.84,
+              height: screenHeight * 0.84,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -114,42 +112,59 @@ class AddFarmPage extends StatelessWidget {
                           constraints: BoxConstraints(
                             maxHeight: screenHeight * 0.55,
                           ),
-                          height: screenHeight*0.46,
-                          child: (state.farm.isNotEmpty)?SingleChildScrollView(
-                            child: Column(children: [
-
-                              ...state.farm
-                                  .map(
-                                    (e) => Card(
-                                        //elevation: 0,
-                                        margin: EdgeInsets.fromLTRB(
-                                            0, 15, 0, 10),
-                                        elevation: 0,
-                                        child: FarmCard(
-                                          function: () {
-                                            context.read<DataManageBloc>().add(DataManageRenewCredential(credentials: e.kitId));
-                                            Navigator.push(
-                                                context,
-                                                PageRouteBuilder(
-                                                  settings: RouteSettings(name: "kitID", arguments: e.kitId),
-                                                  pageBuilder:
-                                                      (__, ___, ____) => DashboardV2(),
-                                                ));
-                                          },
-                                          image: e.image,
-                                          state: e.cultureId,
-                                          Farm_name: e.name,
-                                        ))
-                                .animate()
-                                .slideX( duration: Duration(milliseconds: 500), curve: Curves.easeOutBack),
-                                  )
-                                  .toList(),
-                            ]),
-                          ): Center(
-                            child: SizedBox(
-                                height: screenHeight*0.44,
-                                child: Image.asset('assets/empty.png')),
-                          ),
+                          height: screenHeight * 0.46,
+                          child: (state.farm.isNotEmpty)
+                              ? SingleChildScrollView(
+                                  child: Column(children: [
+                                    ...state.farm
+                                        .map(
+                                          (e) => Card(
+                                                  //elevation: 0,
+                                                  margin: EdgeInsets.fromLTRB(
+                                                      0, 15, 0, 10),
+                                                  elevation: 0,
+                                                  child: FarmCard(
+                                                    function: () {
+                                                      context
+                                                          .read<
+                                                              DataManageBloc>()
+                                                          .add(
+                                                              DataManageRenewCredential(
+                                                                  credentials:
+                                                                      e.kitId));
+                                                      Navigator.push(
+                                                          context,
+                                                          PageRouteBuilder(
+                                                            settings:
+                                                                RouteSettings(
+                                                                    name:
+                                                                        "kitID",
+                                                                    arguments: e
+                                                                        .kitId),
+                                                            pageBuilder: (__,
+                                                                    ___,
+                                                                    ____) =>
+                                                                DashboardV2(),
+                                                          ));
+                                                    },
+                                                    image: e.image,
+                                                    state: e.cultureId,
+                                                    Farm_name: e.name,
+                                                  ))
+                                              .animate()
+                                              .slideX(
+                                                  duration: Duration(
+                                                      milliseconds: 500),
+                                                  curve: Curves.easeOutBack),
+                                        )
+                                        .toList(),
+                                  ]),
+                                )
+                              : Center(
+                                  child: SizedBox(
+                                      height: screenHeight * 0.44,
+                                      child: Image.asset('assets/empty.png')),
+                                ),
                         );
                       } else {
                         return SizedBox(
@@ -162,25 +177,28 @@ class AddFarmPage extends StatelessWidget {
                   ),
                   Center(
                     child: SizedBox(
-                        width: screenWidth * 0.9,
-
-                        child: Card(
-                            margin: EdgeInsets.fromLTRB(0, 0, 0, screenHeight*0.14),
-                            color: MyColors.primaryColor,
-                            child: MaterialButton(
-                                onPressed: () {
-                                   Navigator.push(context, MaterialPageRoute(builder: (context) => AddFormPage()));
-
-                                  // index++;
-                                  //context.read<RoutingBloc>().add(AddForm(index :index));
-                                  print('this is the sate ${state}');
-                                },
-                                child: Text("+ Add Farm",
-                                    style: GoogleFonts.roboto(
-                                        color: Colors.white,
-                                        fontSize: 20)))))
-                    .animate()
-                    .slideY(duration: Duration(milliseconds: 500), curve: Curves.easeOutBack),
+                            width: screenWidth * 0.9,
+                            child: Card(
+                                margin: EdgeInsets.fromLTRB(
+                                    0, 0, 0, screenHeight * 0.14),
+                                color: MyColors.primaryColor,
+                                child: MaterialButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  AddFormPage()));
+                                      print('this is the sate ${state}');
+                                    },
+                                    child: Text("+ Add Farm",
+                                        style: GoogleFonts.roboto(
+                                            color: Colors.white,
+                                            fontSize: 20)))))
+                        .animate()
+                        .slideY(
+                            duration: Duration(milliseconds: 500),
+                            curve: Curves.easeOutBack),
                   )
                 ],
               ),
@@ -188,11 +206,6 @@ class AddFarmPage extends StatelessWidget {
           );
         },
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: _incrementCounter,
-      //   tooltip: 'Increment',
-      //   child: const Icon(Icons.add),
-      // ),
     );
   }
 }

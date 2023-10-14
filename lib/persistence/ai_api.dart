@@ -1,4 +1,4 @@
-import 'package:project/project.dart' as project;
+// import 'package:project/project.dart' as project;
 
 import 'dart:async';
 import 'dart:convert';
@@ -10,7 +10,7 @@ String HOST = "http://44.192.247.69:38856";
 // Function to get crop recommentdation from the given params
 Future<String> getCropRecommendation(int N, int P, int K, double temp, double humidity , double ph, double rainfall) async {
   String endpoint = "getCropRecommandationOutput";
-  Map<String, dynamic> data = {d
+  Map<String, dynamic> data = {
     'N': N,
     'P': P,
     'K': K,

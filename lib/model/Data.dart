@@ -7,17 +7,19 @@ class Data {
       required this.kitIds,});
 
   Data.fromJson(dynamic json) {
-    ph = json['ph'];
-    humidity = json['humidity'];
-    soils = json['soils'];
+    ph = json['ph']?.toDouble();
+    humidity = json['humidity']?.toDouble();
+    soils = json['soils']?.toDouble();
     kitId = json['kitId'];
     kitIds = json['kit_ids'];
+    dateTime = json['dateTime'] != null ? DateTime.parse(json['dateTime']) : null;
   }
-  int? ph;
-  int? humidity;
-  int? soils;
-  String ?kitId;
-  String ?kitIds;
+  double? ph;
+  double? humidity;
+  double? soils;
+  dynamic ?kitId;
+  dynamic ?kitIds;
+  DateTime? dateTime;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -26,6 +28,7 @@ class Data {
     map['soils'] = soils;
     map['kitId'] = kitId;
     map['kit_ids'] = kitIds;
+    map['date'] = dateTime;
     return map;
   }
 

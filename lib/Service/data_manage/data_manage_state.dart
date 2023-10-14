@@ -6,9 +6,10 @@ abstract class DataManageState extends Equatable {
 
 class DataManageInitial extends DataManageState {
  Data data ;
-  DataManageInitial({required this.data});
+ List<Data> datas = [];
+  DataManageInitial({required this.data, required  this.datas});
   @override
-  List<Object> get props => [data ];
+  List<Object> get props => [data, datas];
 }
 
 class NewDataState extends DataManageState{

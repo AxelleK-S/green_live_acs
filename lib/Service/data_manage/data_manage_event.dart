@@ -20,6 +20,41 @@ class DataManageRenewCredential extends DataManageEvent{
 
   @override
   // TODO: implement props
-  List<Object?> get props => [credentials];
+  List<Object?> get props => [credentials
+  ];
 
 }
+
+class DataManageMonthEvent extends DataManageEvent{
+  DataManageMonthEvent({required super.credentials});
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
+  
+}
+
+class DataManageYearEvent extends DataManageEvent{
+  DataManageYearEvent({required super.credentials});
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
+}
+
+class DataManageWeekEvent extends DataManageEvent{
+  DataManageWeekEvent({required super.credentials});
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
+}
+  
+class DataManageDayEvent extends DataManageEvent {
+  DataManageDayEvent({required super.credentials});
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
+}
+  

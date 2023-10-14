@@ -16,6 +16,7 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../Service/data_manage/data_manage_bloc.dart';
 import '../ressouces/my_colors.dart';
+import 'chat_page.dart';
 
 class DashboardV2 extends StatelessWidget {
   var pieProvider = BlocProvider(create: (_) => PieBloc());
@@ -114,7 +115,7 @@ class DashboardV2 extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 CircularPercentIndicator(
-                                    percent: 0.8,
+                                    percent: dataState.data!.ph! /100,
                                     progressColor: Colors.green,
                                     lineWidth: 10,
                                     animation: true,
@@ -129,7 +130,7 @@ class DashboardV2 extends StatelessWidget {
                                             fontWeight: FontWeight.bold)),
                                     radius: 30),
                                 CircularPercentIndicator(
-                                    percent: 0.3,
+                                    percent: dataState.data!.humidity!/100,
                                     lineWidth: 10,
                                     animation: true,
                                     progressColor: Colors.blue,
@@ -144,7 +145,7 @@ class DashboardV2 extends StatelessWidget {
                                             fontWeight: FontWeight.bold)),
                                     radius: 30),
                                 CircularPercentIndicator(
-                                    percent: 0.5,
+                                    percent:dataState.data!.soils!/100,
                                     lineWidth: 10,
                                     animation: true,
                                     progressColor: Colors.brown,
@@ -309,11 +310,20 @@ class DashboardV2 extends StatelessWidget {
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
+                                      BouttonMenu(size: 180, title: 'chat whit gerom', icon: Icons.rocket_launch, color: Colors.redAccent, func: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => ChatPage(),
+                                          )
+                                        );
+                                      },),
+
                                       BouttonMenu(
                                               size: 100,
                                               title: 'Humidity',
                                               icon: Icons.water_drop,
-                                              color: Colors.blue)
+                                              color: Colors.blue, func: () {  },)
                                           .animate()
                                           .slideY(
                                             duration: const Duration(
@@ -325,7 +335,7 @@ class DashboardV2 extends StatelessWidget {
                                               size: 75,
                                               title: 'Soils',
                                               icon: Icons.south_america,
-                                              color: Colors.brown)
+                                              color: Colors.brown, func: () {  },)
                                           .animate()
                                           .slideY(
                                             duration: const Duration(
@@ -336,13 +346,14 @@ class DashboardV2 extends StatelessWidget {
                                               size: 55,
                                               title: 'Ph',
                                               icon: Icons.thermostat,
-                                              color: Colors.green)
+                                              color: Colors.green, func: () {  },)
                                           .animate()
                                           .slideY(
                                             duration: const Duration(
                                                 milliseconds: 700),
                                             curve: Curves.linear,
                                           ),
+
                                       //  BouttonMenu(size: 100, title: 'Evapotranspiration', icon: Icons.water_drop, color: Colors.blue),
                                     ],
                                   ),

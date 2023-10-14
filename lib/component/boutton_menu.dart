@@ -5,10 +5,11 @@ class BouttonMenu extends StatelessWidget{
    double size;
    String title ;
    IconData icon;
+   VoidCallback func ;
 
   Color color;
 
-   BouttonMenu({required this.size ,  required this.title, required this.icon , required this.color});
+   BouttonMenu({required this.size ,  required this.title, required this.icon , required this.color , required this.func});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,7 @@ class BouttonMenu extends StatelessWidget{
          backgroundColor:
          MaterialStateProperty.all(
              Colors.white)),
-     onPressed: () {},
+     onPressed: func,
      child: SizedBox(
        width : size,
        child: Row(

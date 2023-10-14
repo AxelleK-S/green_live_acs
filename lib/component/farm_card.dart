@@ -50,11 +50,11 @@ class FarmCard extends StatelessWidget {
                   color: Color(0xFF162C15)
                 )),
                 //SizedBox(height: 15,),
-                Text(state!, style: GoogleFonts.roboto(
+                Text(style: GoogleFonts.roboto(
                   fontSize: 15,
                     color: Color(0xFF333333),
                   fontWeight: FontWeight.w500
-                )
+                ), state!
                 )
               ]
             ),

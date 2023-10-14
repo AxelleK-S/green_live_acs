@@ -2,16 +2,22 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 
 class Farm {
+
   Farm({
+
     required this.cultureId,
        this.kitId,
        this.image,
        this.location,
+        //this.farmsId,
+
       required this.name,
     required  this.state,
     required   this.superficie,
     required this.userId,
   });
+
+//  String? farmsId;
 
   String? cultureId;
   String? kitId;
@@ -23,20 +29,22 @@ class Farm {
   String? userId;
 
   Farm.fromJson(dynamic json) {
-    cultureId = json['Culture_id'];
-    kitId = json['KitId'];
+    cultureId = json['culture_id'];
+    kitId = json['kitId'];
     image = json['image'];
     location = json['location'];
     name = json['name'];
     state = json['state'];
     superficie = json['superficie'];
     userId = json['userId'];
+   // farmsId = json['farmsId'];
   }
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
-    map['Culture_id'] = cultureId;
-    map['KitId'] = kitId;
+    map['culture_id'] = cultureId;
+   // map['farmsId'] = farmsId;
+    map['kitId'] = kitId;
     map['image'] = image;
     map['location'] = location;
     map['name'] = name;

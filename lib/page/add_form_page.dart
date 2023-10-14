@@ -296,6 +296,8 @@ class AddFormPage extends StatelessWidget {
         context.read<AddFarmBloc>().add(Init());
         //je rafraichi la page des farmes pour mettre a jour les donnes resssus
         context.read<FarmBloc>().add(FarmBegin());
+        //j'enregistre la nouvelle ferme creer
+        context.read<FarmBloc>().add(NewFarms(farm: state.farm));
         //je ferme la page
         Navigator.pop(context);
         } else if (state is AddFarmBegin) {

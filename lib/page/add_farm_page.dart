@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:green_live_acs/model/Farm.dart';
@@ -9,6 +10,7 @@ import 'package:green_live_acs/ressouces/my_colors.dart';
 
 import '../Service/FarmBloc/farm_bloc.dart';
 
+import '../Service/data_manage/data_manage_bloc.dart';
 import '../Service/routing_bloc.dart';
 import '../component/farm_card.dart';
 import 'add_form_page.dart';
@@ -52,7 +54,6 @@ class AddFarmPage extends StatelessWidget {
                               "Welcome Back",
                               style: GoogleFonts.roboto(fontSize: 30),
                             ),
-
                             Text("ACS",
                                 style: GoogleFonts.roboto(
                                     fontSize: 30,
@@ -96,55 +97,76 @@ class AddFarmPage extends StatelessWidget {
       ),
       body: BlocBuilder<FarmBloc, FarmState>(
         builder: (context, state) {
-          if(state is FarmInitial)
-          context.read<FarmBloc>().add(FarmBegin());
+          if (state is FarmInitial) context.read<FarmBloc>().add(FarmBegin());
           return Padding(
             padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
             child: SizedBox(
-              height: screenHeight - 55,
+              height: screenHeight * 0.84,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   BlocBuilder<FarmBloc, FarmState>(
                     builder: (context, state) {
-                      if (state is FarmPresent)
+                      if (state is FarmPresent) {
                         return Container(
                           constraints: BoxConstraints(
                             maxHeight: screenHeight * 0.55,
                           ),
-                          // height: 10,
-                          child: (state.farm.isNotEmpty)?SingleChildScrollView(
-                            child: Column(children: [
-
-                              ...state.farm
-                                  .map(
-                                    (e) => Card(
-                                        //elevation: 0,
-                                        margin: EdgeInsets.fromLTRB(
-                                            0, 15, 0, 10),
-                                        elevation: 0,
-                                        child: FarmCard(
-                                          function: () {
-                                            Navigator.push(
-                                                context,
-                                                PageRouteBuilder(
-                                                  pageBuilder:
-                                                      (__, ___, ____) =>
-                                                          DashboardV2(),
-                                                ));
-                                          },
-                                          image: e.image,
-                                          state: e.cultureId,
-                                          Farm_name: e.name,
-                                        )),
-                                  )
-                                  .toList(),
-                            ]),
-                          ): Center(
-                            child: SizedBox(child: Image.asset('assets/empty.png')),
-                          ),
+                          height: screenHeight * 0.46,
+                          child: (state.farm.isNotEmpty)
+                              ? SingleChildScrollView(
+                                  child: Column(children: [
+                                    ...state.farm
+                                        .map(
+                                          (e) => Card(
+                                                  //elevation: 0,
+                                                  margin: EdgeInsets.fromLTRB(
+                                                      0, 15, 0, 10),
+                                                  elevation: 0,
+                                                  child: FarmCard(
+                                                    function: () {
+                                                      context
+                                                          .read<
+                                                              DataManageBloc>()
+                                                          .add(
+                                                              DataManageRenewCredential(
+                                                                  credentials:
+                                                                      e.kitId));
+                                                      Navigator.push(
+                                                          context,
+                                                          PageRouteBuilder(
+                                                            settings:
+                                                                RouteSettings(
+                                                                    name:
+                                                                        "kitID",
+                                                                    arguments: e
+                                                                        .kitId),
+                                                            pageBuilder: (__,
+                                                                    ___,
+                                                                    ____) =>
+                                                                DashboardV2(),
+                                                          ));
+                                                    },
+                                                    image: e.image,
+                                                    state: e.cultureId,
+                                                    Farm_name: e.name,
+                                                  ))
+                                              .animate()
+                                              .slideX(
+                                                  duration: Duration(
+                                                      milliseconds: 500),
+                                                  curve: Curves.easeOutBack),
+                                        )
+                                        .toList(),
+                                  ]),
+                                )
+                              : Center(
+                                  child: SizedBox(
+                                      height: screenHeight * 0.44,
+                                      child: Image.asset('assets/empty.png')),
+                                ),
                         );
-                      else {
+                      } else {
                         return SizedBox(
                             width: screenWidth,
                             child: Center(
@@ -155,23 +177,28 @@ class AddFarmPage extends StatelessWidget {
                   ),
                   Center(
                     child: SizedBox(
-                        width: screenWidth * 0.9,
-
-                        child: Card(
-                            margin: EdgeInsets.fromLTRB(0, 0, 0, screenHeight*0.14),
-                            color: MyColors.primaryColor,
-                            child: MaterialButton(
-                                onPressed: () {
-                                   Navigator.push(context, MaterialPageRoute(builder: (context) => AddFormPage()));
-
-                                  // index++;
-                                  //context.read<RoutingBloc>().add(AddForm(index :index));
-                                  print('this is the sate ${state}');
-                                },
-                                child: Text("+ Add Farm",
-                                    style: GoogleFonts.roboto(
-                                        color: Colors.white,
-                                        fontSize: 20))))),
+                            width: screenWidth * 0.9,
+                            child: Card(
+                                margin: EdgeInsets.fromLTRB(
+                                    0, 0, 0, screenHeight * 0.14),
+                                color: MyColors.primaryColor,
+                                child: MaterialButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  AddFormPage()));
+                                      print('this is the sate ${state}');
+                                    },
+                                    child: Text("+ Add Farm",
+                                        style: GoogleFonts.roboto(
+                                            color: Colors.white,
+                                            fontSize: 20)))))
+                        .animate()
+                        .slideY(
+                            duration: Duration(milliseconds: 500),
+                            curve: Curves.easeOutBack),
                   )
                 ],
               ),
@@ -179,11 +206,6 @@ class AddFarmPage extends StatelessWidget {
           );
         },
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: _incrementCounter,
-      //   tooltip: 'Increment',
-      //   child: const Icon(Icons.add),
-      // ),
     );
   }
 }

@@ -46,7 +46,7 @@ class PayementCard extends StatelessWidget{
                    ),
                    SizedBox(height: 5,),
                    Text( object[index]['title'],style: GoogleFonts.roboto(fontSize: 14,fontWeight: FontWeight.w600,),),
-                   Text( object[index]['date'],style: GoogleFonts.roboto(fontSize: 16,fontWeight: FontWeight.w400,)),
+                   Expanded(child: Text( object[index]['date'],style: GoogleFonts.roboto(fontSize: 16,fontWeight: FontWeight.w400,))),
                    SizedBox(height: 3,),
                    Expanded(
                      child: Row(

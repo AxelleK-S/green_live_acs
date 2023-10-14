@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:green_live_acs/ressouces/my_colors.dart';
 
@@ -51,7 +52,9 @@ class CulturePage extends StatelessWidget {
                         image: DecorationImage(
                             opacity: 0.62,
                             image: AssetImage("assets/culture.png"),
-                            fit: BoxFit.cover))),
+                            fit: BoxFit.cover)))
+                .animate()
+                .slideY(duration: const Duration(milliseconds: 500), curve: Curves.easeOut),
               ),
               Positioned(
                 top: 300,
@@ -166,13 +169,17 @@ class CulturePage extends StatelessWidget {
                                               ]
                                             )
                                       ),
-                                    ),
+                                    )
+                                            .animate()
+                                            .slideY( duration: const Duration(milliseconds: 500,) ,curve: Curves.easeInOutCubicEmphasized ,),
                                           )),
                                         ))
                                   ],
                                 ),
                               ),
-                            ),
+                            )
+                                .animate()
+                                .slideX( duration: const Duration(milliseconds: 500,) ,curve: Curves.easeInOut ,),
                           ));
                         }),
                   ),

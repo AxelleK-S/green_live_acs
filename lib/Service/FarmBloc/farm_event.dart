@@ -11,3 +11,15 @@ class FarmBegin extends FarmEvent{
 }
 
 
+class NewFarms extends FarmEvent{
+
+  Farm farm;
+
+  NewFarms({required this.farm});
+  @override
+  // TODO: implement props
+  List<Object?> get props => [farm];
+
+}
+
+

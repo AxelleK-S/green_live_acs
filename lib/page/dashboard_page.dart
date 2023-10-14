@@ -16,7 +16,7 @@ class DashboardPages extends StatelessWidget {
 
   var object = [
     {
-      'color': Colors.red,
+      'color': Colors.green,
       'image': 'assets/briefcase.png',
       'title': 'Salary',
       'date': 'June 28, 20200',

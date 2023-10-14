@@ -25,7 +25,9 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
         emit(SignUpSuccefuly());
 
       }catch(e){
-        emit(SignUpFailed());
+        List<String> parts = e.toString().split(']');
+        String message = parts[1];
+        emit(SignUpFailed(message: message.trim()));
       }
 
       // TODO: implement event handler

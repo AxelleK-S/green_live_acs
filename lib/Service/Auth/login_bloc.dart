@@ -41,11 +41,12 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           emit(LoginSucefull(db: userRepository.db));
           print("successfully");
         } else {
-          emit(LoginFailed());
+          emit(LoginFailed(message: "An error occured"));
         }
       }catch(e){
-        print(e);
-        emit(LoginFailed());
+        List<String> parts = e.toString().split(']');
+        String message = parts[1];
+        emit(LoginFailed(message: message.trim()));
       }
   });
 

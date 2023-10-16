@@ -14,6 +14,7 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'dart:math' as math;
 import 'package:syncfusion_flutter_charts/charts.dart';
 
+import '../Service/data_chart_bloc/data_chart_bloc.dart';
 import '../Service/data_manage/data_manage_bloc.dart';
 import '../ressouces/my_colors.dart';
 import 'chat_page.dart';
@@ -27,6 +28,7 @@ class DashboardV2 extends StatelessWidget {
   ];
 
   var values = 'Day';
+  String period = 'Day';
   @override
   Widget build(BuildContext context) {
     final routes = ModalRoute.of(context)?.settings.arguments as String;
@@ -107,15 +109,14 @@ class DashboardV2 extends StatelessWidget {
                         width: screenWidth * 0.85,
                         child: BlocBuilder<DataManageBloc, DataManageState>(
                             builder: (context, dataState) {
-                         // context.read<DataManageBloc>().add(DataManageLoadEvent(credentials: routes));
+                          // context.read<DataManageBloc>().add(DataManageLoadEvent(credentials: routes));
                           print(dataState);
                           if (dataState is DataManageInitial) {
-
                             return Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 CircularPercentIndicator(
-                                    percent: dataState.data!.ph! /100,
+                                    percent: dataState.data!.ph! / 100,
                                     progressColor: Colors.green,
                                     lineWidth: 10,
                                     animation: true,
@@ -130,7 +131,7 @@ class DashboardV2 extends StatelessWidget {
                                             fontWeight: FontWeight.bold)),
                                     radius: 30),
                                 CircularPercentIndicator(
-                                    percent: dataState.data!.humidity!/100,
+                                    percent: dataState.data!.humidity! / 100,
                                     lineWidth: 10,
                                     animation: true,
                                     progressColor: Colors.blue,
@@ -145,7 +146,7 @@ class DashboardV2 extends StatelessWidget {
                                             fontWeight: FontWeight.bold)),
                                     radius: 30),
                                 CircularPercentIndicator(
-                                    percent:dataState.data!.soils!/100,
+                                    percent: dataState.data!.soils! / 100,
                                     lineWidth: 10,
                                     animation: true,
                                     progressColor: Colors.brown,
@@ -161,19 +162,19 @@ class DashboardV2 extends StatelessWidget {
                                     radius: 30)
                               ],
                             );
-                          // }
-                          // else if (dataState is DataManageInitial) {
-                          //   return BlocListener<DataManageBloc, DataManageState>(listener: (context, state) {
-                          //     if (state is DataManageInitial) {
-                          //       context.read<DataManageBloc>().add(DataManageRenewCredential(credentials: routes));
-                          //     }
-                          //   },
-                          //     child: SizedBox(
-                          //       width: 10,
-                          //       height: 10,
-                          //       child: CircularProgressIndicator(),
-                          //     ),
-                          //   );
+                            // }
+                            // else if (dataState is DataManageInitial) {
+                            //   return BlocListener<DataManageBloc, DataManageState>(listener: (context, state) {
+                            //     if (state is DataManageInitial) {
+                            //       context.read<DataManageBloc>().add(DataManageRenewCredential(credentials: routes));
+                            //     }
+                            //   },
+                            //     child: SizedBox(
+                            //       width: 10,
+                            //       height: 10,
+                            //       child: CircularProgressIndicator(),
+                            //     ),
+                            //   );
                           }
                           return SizedBox(
                             width: screenWidth * 0.85,
@@ -233,65 +234,85 @@ class DashboardV2 extends StatelessWidget {
                       SizedBox(
                         height: 10,
                       ),
-                      SizedBox(
-                        width: screenWidth * 0.85,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text("Humidity graph",
-                                style: GoogleFonts.roboto(
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.bold,
-                                )),
-                            DropdownButton(
-                                items: [
-                                  DropdownMenuItem(
-                                      child: Text("Year"),
-                                      value: "Year",
-                                      onTap: () {}),
-                                  DropdownMenuItem(
-                                      child: Text("Month"),
-                                      value: "Month",
-                                      onTap: () {}),
-                                  DropdownMenuItem(
-                                      child: Text("Week"),
-                                      value: "Week",
-                                      onTap: () {}),
-                                  DropdownMenuItem(
-                                      child: Text("Day"),
-                                      value: "Day",
-                                      onTap: () {}),
+                      BlocProvider(
+                        create: (context) => DataChartBloc(credentials: routes),
+                        child: BlocBuilder<DataChartBloc, DataChartState>(
+  builder: (context, state) {
+    return Column(
+      children: [
+        SizedBox(
+                              width: screenWidth * 0.85,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text("${state.title} graph",
+                                      style: GoogleFonts.roboto(
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.bold,
+                                      )),
+                                  DropdownButton(
+                                      items: [
+                                        DropdownMenuItem(
+                                            child: Text("Year"),
+                                            value: "Year",
+                                            onTap: () {
+                                              period = "Year";
+                                            }),
+                                        DropdownMenuItem(
+                                            child: Text("Month"),
+                                            value: "Month",
+                                            onTap: () {
+                                              period = "Month";
+                                            }),
+                                        DropdownMenuItem(
+                                            child: Text("Week"),
+                                            value: "Week",
+                                            onTap: () {
+                                              period = "Week";
+                                            }),
+                                        DropdownMenuItem(
+                                            child: Text("Day"),
+                                            value: "Day",
+                                            onTap: () {
+                                              period = "Day";
+                                            }),
+                                      ],
+                                      value: values,
+                                      onChanged: (value) {
+                                        values = value.toString();
+                                      })
                                 ],
-                                value: values,
-                                onChanged: (value) {
-                                  values = value.toString();
-                                })
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: screenHeight * 0.02,
-                      ),
-                      SizedBox(
-                        width: screenWidth * 0.80,
-                        height: screenHeight * 0.25,
-                        child: AspectRatio(
-                          aspectRatio: 1.4,
-                          child: AspectRatio(
-                            aspectRatio: 1.30,
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                right: 18,
-                                left: 12,
-                                top: 24,
-                                bottom: 12,
-                              ),
-                              child: LineChart(
-                                showAvg ? avgData() : mainData(),
                               ),
                             ),
-                          ),
-                        ),
+        SizedBox(
+          height: screenHeight * 0.02,
+        ),
+        SizedBox(
+          width: screenWidth * 0.80,
+          height: screenHeight * 0.25,
+          child: AspectRatio(
+            aspectRatio: 1.4,
+            child: AspectRatio(
+              aspectRatio: 1.30,
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  right: 18,
+                  left: 12,
+                  top: 24,
+                  bottom: 12,
+                ),
+                child: LineChart(
+                  mainData(state),
+                ),
+              ),
+            ),
+          ),
+        ),
+
+      ],
+    );
+  },
+),
                       ),
                     ],
                   ))),
@@ -310,45 +331,57 @@ class DashboardV2 extends StatelessWidget {
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
-                                      BouttonMenu(size: 180, title: 'chat whit gerom', icon: Icons.rocket_launch, color: Colors.redAccent, func: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => ChatPage(),
-                                          )
-                                        );
-                                      },),
+                                      BouttonMenu(
+                                        size: 180,
+                                        title: 'chat whit gerom',
+                                        icon: Icons.rocket_launch,
+                                        color: Colors.redAccent,
+                                        func: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ChatPage(),
+                                              ));
+                                        },
+                                      ),
 
                                       BouttonMenu(
-                                              size: 100,
-                                              title: 'Humidity',
-                                              icon: Icons.water_drop,
-                                              color: Colors.blue, func: () {  },)
-                                          .animate()
-                                          .slideY(
+                                        size: 100,
+                                        title: 'Humidity',
+                                        icon: Icons.water_drop,
+                                        color: Colors.blue,
+                                        func: () {
+                                          context.read<DataChartBloc>().add(DataChartHumidyEvent(period: period));
+                                        },
+                                      ).animate().slideY(
                                             duration: const Duration(
                                                 milliseconds: 500),
                                             curve: Curves.linear,
                                           ),
 
                                       BouttonMenu(
-                                              size: 75,
-                                              title: 'Soils',
-                                              icon: Icons.south_america,
-                                              color: Colors.brown, func: () {  },)
-                                          .animate()
-                                          .slideY(
+                                        size: 75,
+                                        title: 'Soils',
+                                        icon: Icons.south_america,
+                                        color: Colors.brown,
+                                        func: () {
+                                          context.read<DataChartBloc>().add(DataChartSoilsEvent(period: period));
+                                        },
+                                      ).animate().slideY(
                                             duration: const Duration(
                                                 milliseconds: 600),
                                             curve: Curves.linear,
                                           ),
                                       BouttonMenu(
-                                              size: 55,
-                                              title: 'Ph',
-                                              icon: Icons.thermostat,
-                                              color: Colors.green, func: () {  },)
-                                          .animate()
-                                          .slideY(
+                                        size: 55,
+                                        title: 'Ph',
+                                        icon: Icons.thermostat,
+                                        color: Colors.green,
+                                        func: () {
+                                          context.read<DataChartBloc>().add(DataChartPhEvent(period: period));
+                                        },
+                                      ).animate().slideY(
                                             duration: const Duration(
                                                 milliseconds: 700),
                                             curve: Curves.linear,
@@ -371,94 +404,94 @@ class DashboardV2 extends StatelessWidget {
         }));
   }
 
-  LineChartData avgData() {
-    return LineChartData(
-      lineTouchData: const LineTouchData(enabled: false),
-      gridData: FlGridData(
-        show: true,
-        drawHorizontalLine: true,
-        verticalInterval: 1,
-        horizontalInterval: 1,
-        getDrawingVerticalLine: (value) {
-          return const FlLine(
-            color: Color(0xff37434d),
-            strokeWidth: 1,
-          );
-        },
-        getDrawingHorizontalLine: (value) {
-          return const FlLine(
-            color: Color(0xff37434d),
-            strokeWidth: 1,
-          );
-        },
-      ),
-      titlesData: FlTitlesData(
-        show: true,
-        bottomTitles: AxisTitles(
-          sideTitles: SideTitles(
-            showTitles: true,
-            reservedSize: 30,
-            getTitlesWidget: bottomTitleWidgets,
-            interval: 3,
-          ),
-        ),
-        leftTitles: AxisTitles(
-          sideTitles: SideTitles(
-            showTitles: true,
-            getTitlesWidget: leftTitleWidgets,
-            reservedSize: 42,
-            interval: 1,
-          ),
-        ),
-        topTitles: const AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-        rightTitles: const AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-      ),
-      borderData: FlBorderData(
-        show: true,
-        border: Border.all(color: const Color(0xff37434d)),
-      ),
-      minX: 0,
-      maxX: 11,
-      minY: 0,
-      maxY: 6,
-      lineBarsData: [
-        LineChartBarData(
-          spots: getSpots(),
-          isCurved: true,
-          gradient: LinearGradient(
-            colors: [
-              ColorTween(begin: gradientColors[0], end: gradientColors[1])
-                  .lerp(0.2)!,
-              ColorTween(begin: gradientColors[1], end: gradientColors[0])
-                  .lerp(0.2)!,
-            ],
-          ),
-          barWidth: 5,
-          isStrokeCapRound: true,
-          dotData: const FlDotData(
-            show: false,
-          ),
-          belowBarData: BarAreaData(
-            show: true,
-            gradient: LinearGradient(
-              colors: [
-                ColorTween(begin: gradientColors[0], end: gradientColors[1])
-                    .lerp(0.2)!
-                    .withOpacity(1),
-                ColorTween(begin: gradientColors[0], end: gradientColors[1])
-                    .lerp(0.2)!
-                    .withOpacity(1),
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
-  }
+  // LineChartData avgData() {
+  //   return LineChartData(
+  //     lineTouchData: const LineTouchData(enabled: false),
+  //     gridData: FlGridData(
+  //       show: true,
+  //       drawHorizontalLine: true,
+  //       verticalInterval: 1,
+  //       horizontalInterval: 1,
+  //       getDrawingVerticalLine: (value) {
+  //         return const FlLine(
+  //           color: Color(0xff37434d),
+  //           strokeWidth: 1,
+  //         );
+  //       },
+  //       getDrawingHorizontalLine: (value) {
+  //         return const FlLine(
+  //           color: Color(0xff37434d),
+  //           strokeWidth: 1,
+  //         );
+  //       },
+  //     ),
+  //     titlesData: FlTitlesData(
+  //       show: true,
+  //       bottomTitles: AxisTitles(
+  //         sideTitles: SideTitles(
+  //           showTitles: true,
+  //           reservedSize: 30,
+  //           getTitlesWidget: bottomTitleWidgets,
+  //           interval: 3,
+  //         ),
+  //       ),
+  //       leftTitles: AxisTitles(
+  //         sideTitles: SideTitles(
+  //           showTitles: true,
+  //           getTitlesWidget: leftTitleWidgets,
+  //           reservedSize: 42,
+  //           interval: 1,
+  //         ),
+  //       ),
+  //       topTitles: const AxisTitles(
+  //         sideTitles: SideTitles(showTitles: false),
+  //       ),
+  //       rightTitles: const AxisTitles(
+  //         sideTitles: SideTitles(showTitles: false),
+  //       ),
+  //     ),
+  //     borderData: FlBorderData(
+  //       show: true,
+  //       border: Border.all(color: const Color(0xff37434d)),
+  //     ),
+  //     minX: 0,
+  //     maxX: 11,
+  //     minY: 0,
+  //     maxY: 6,
+  //     lineBarsData: [
+  //       LineChartBarData(
+  //         spots: getSpots(),
+  //         isCurved: true,
+  //         gradient: LinearGradient(
+  //           colors: [
+  //             ColorTween(begin: gradientColors[0], end: gradientColors[1])
+  //                 .lerp(0.2)!,
+  //             ColorTween(begin: gradientColors[1], end: gradientColors[0])
+  //                 .lerp(0.2)!,
+  //           ],
+  //         ),
+  //         barWidth: 5,
+  //         isStrokeCapRound: true,
+  //         dotData: const FlDotData(
+  //           show: false,
+  //         ),
+  //         belowBarData: BarAreaData(
+  //           show: true,
+  //           gradient: LinearGradient(
+  //             colors: [
+  //               ColorTween(begin: gradientColors[0], end: gradientColors[1])
+  //                   .lerp(0.2)!
+  //                   .withOpacity(1),
+  //               ColorTween(begin: gradientColors[0], end: gradientColors[1])
+  //                   .lerp(0.2)!
+  //                   .withOpacity(1),
+  //             ],
+  //           ),
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  // }
 
   Widget leftTitleWidgets(double value, TitleMeta meta) {
     var style = GoogleFonts.roboto(
@@ -534,7 +567,7 @@ class DashboardV2 extends StatelessWidget {
     );
   }
 
-  LineChartData mainData() {
+  LineChartData mainData(DataChartState state) {
     return LineChartData(
       gridData: FlGridData(
         show: true,
@@ -568,7 +601,7 @@ class DashboardV2 extends StatelessWidget {
             showTitles: true,
             reservedSize: 40,
             interval: 1,
-            getTitlesWidget: bottomTitleWidgets,
+           // getTitlesWidget: bottomTitleWidgets,
           ),
         ),
         leftTitles: AxisTitles(
@@ -585,19 +618,21 @@ class DashboardV2 extends StatelessWidget {
         border: Border.all(color: const Color(0xff37434d)),
       ),
       minX: 0,
-      maxX: 50,
+      maxX: state.MaxX,
       minY: 0,
-      maxY: 50,
+      maxY: state.MaxY,
       lineBarsData: [
         LineChartBarData(
-          spots: [
-            FlSpot(0, 0),
-            FlSpot(10, 10),
-            FlSpot(20, 16),
-            FlSpot(30, 30),
-            FlSpot(40, 20),
-            FlSpot(50, 40),
-          ],
+          spots: state.datas.map((e) => FlSpot(e[0], e[1])).toList(),
+          // [
+          //   FlSpot(0, 0),
+          //   FlSpot(10, 10),
+          //   FlSpot(20, 16),
+          //   FlSpot(30, 30),
+          //   FlSpot(40, 20),
+          //   FlSpot(50, 40),
+          // ]
+          //,
           isCurved: true,
           gradient: LinearGradient(
             colors: [Colors.red, Colors.blue].map((color) => color).toList(),

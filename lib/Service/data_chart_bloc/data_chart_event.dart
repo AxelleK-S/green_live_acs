@@ -1,25 +1,29 @@
 part of 'data_chart_bloc.dart';
 
 abstract class DataChartEvent extends Equatable {
-  const DataChartEvent();
+  String period = "";
+  
+   DataChartEvent({required this.period});
 }
 
-class DataManageYearEvent extends DataChartEvent{
+class DataChartHumidyEvent extends DataChartEvent{
+  DataChartHumidyEvent({required super.period});
+
 
   @override
   // TODO: implement props
   List<Object?> get props => [];
 }
 
-class DataManageWeekEvent extends DataChartEvent{
-
+class DataChartPhEvent extends DataChartEvent{
+  DataChartPhEvent({required super.period});
   @override
   // TODO: implement props
   List<Object?> get props => [];
 }
 
-class DataManageDayEvent extends DataChartEvent {
-
+class DataChartSoilsEvent extends DataChartEvent {
+  DataChartSoilsEvent({required super.period});
   @override
   // TODO: implement props
   List<Object?> get props => [];

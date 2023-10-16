@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:green_live_acs/Service/Cubit/string_cubit.dart';
 import 'package:green_live_acs/Service/routing_bloc.dart';
 import 'package:green_live_acs/page/sign_up_page.dart';
 import 'package:green_live_acs/repository/user_repository.dart';
@@ -11,6 +10,7 @@ import 'package:green_live_acs/page/loading_page.dart';
 import 'package:green_live_acs/ressouces/my_colors.dart';
 
 import '../Service/Auth/login_bloc.dart';
+import '../Service/cubit/string_cubit.dart';
 
 class LoginPage extends StatelessWidget {
  final TextEditingController _emailController = TextEditingController();

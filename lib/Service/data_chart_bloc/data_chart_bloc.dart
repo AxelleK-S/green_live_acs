@@ -15,24 +15,42 @@ part 'data_chart_state.dart';
 class DataChartBloc extends Bloc<DataChartEvent, DataChartState> {
   Api api = Api(baseUrl: api_url);
   String credentials;
+  bool load = false ;
   late DataRepository dataRepository;
-  late List<Data> datas = [];
+  late List<dynamic> datas = [];
   DataChartBloc({required this.credentials})
       : super(DataChartHumidityState(datas: [], MaxX: 12)) {
     dataRepository = DataRepository(api: api);
     on<DataChartHumidyEvent>((event, emit) async {
-      Response rep = await dataRepository.GetDataBYUserId(credentials);
-      if (rep.statusCode == 200) {
-        datas = rep.data!.map((e) => Data.fromJson(e)).toList();
+      if(!load){
+        Response rep = await dataRepository.GetDataBYUserId(credentials);
+        if (rep.statusCode == 200) {
+          datas = rep.data!.map((e) => Data.fromJson(e)).toList() ;
+          print(datas);
+          load = true ;
+
+        }
+
       }
+
       List<dynamic> d = [];
       if (event.period == "Day") {
         d = datas
             .where((element) => element.dateTime!
                 .isAfter(DateTime.now().subtract(Duration(hours: 5))))
-            .map((e) => [e.humidity, e.dateTime?.hour])
+            .map((e) {
+              print(e.dateTime!.hour);
+             return [e.humidity, e.dateTime?.hour];
+        })
             .toList();
-        emit(DataChartHumidityState(datas: d, MaxX: 24));
+        List <dynamic> s_d = [];
+        num length = s_d.length / 5 ;
+        for(int i =1  ; i <=5 ; i++){
+          num a = 0;
+          s_d.add(d[i][0]);
+          a = a+length ;
+        }
+        emit(DataChartHumidityState(datas: s_d, MaxX: 24));
 
       } else if (event.period == "Month") {
         d = datas
@@ -40,7 +58,14 @@ class DataChartBloc extends Bloc<DataChartEvent, DataChartState> {
                 .isAfter(DateTime.now().subtract(Duration(days: 28))))
             .map((e) => [e.humidity, e.dateTime?.day])
             .toList();
-        emit(DataChartHumidityState(datas: d, MaxX: 28));
+        List <dynamic> s_d = [];
+        num length = s_d.length / 5 ;
+        for(int i =1  ; i <=5 ; i++){
+          num a = 0;
+          s_d.add(d[i][0]);
+          a = a+length ;
+        }
+        emit(DataChartHumidityState(datas: s_d, MaxX: 28));
 
       } else if (event.period == "Year") {
         d = datas
@@ -48,7 +73,14 @@ class DataChartBloc extends Bloc<DataChartEvent, DataChartState> {
                 .isAfter(DateTime.now().subtract(Duration(days: 365))))
             .map((e) => [e.humidity, e.dateTime?.month])
             .toList();
-        emit(DataChartHumidityState(datas: d, MaxX: 12));
+        List <dynamic> s_d = [];
+        num length = s_d.length / 5 ;
+        for(int i =1  ; i <=5 ; i++){
+          num a = 0;
+          s_d.add(d[i][0]);
+          a = a+length ;
+        }
+        emit(DataChartHumidityState(datas: s_d, MaxX: 12));
 
       }
 
@@ -57,10 +89,17 @@ class DataChartBloc extends Bloc<DataChartEvent, DataChartState> {
     });
 
     on<DataChartPhEvent>((event, emit) async {
-      Response rep = await dataRepository.GetDataBYUserId(credentials);
-      if (rep.statusCode == 200) {
-        datas = rep.data!.map((e) => Data.fromJson(e)).toList();
+      if(!load){
+        Response rep = await dataRepository.GetDataBYUserId(credentials);
+        if (rep.statusCode == 200) {
+          datas = rep.data!.map((e) => Data.fromJson(e)).toList() ;
+          print(datas);
+          load = true ;
+
+        }
+
       }
+
       List<dynamic> d = [];
       if (event.period == "Day") {
         d = datas
@@ -68,7 +107,14 @@ class DataChartBloc extends Bloc<DataChartEvent, DataChartState> {
                 .isAfter(DateTime.now().subtract(Duration(hours: 5))))
             .map((e) => [e.ph, e.dateTime?.hour])
             .toList();
-        emit(DataChartPhState(datas: d, MaxX: 24));
+        List <dynamic> s_d = [];
+        num length = s_d.length / 5 ;
+        for(int i =1  ; i <=5 ; i++){
+          num a = 0;
+          s_d.add(d[i][0]);
+          a = a+length ;
+        }
+        emit(DataChartPhState(datas: s_d, MaxX: 24));
 
 
       } else if (event.period == "Month") {
@@ -77,7 +123,15 @@ class DataChartBloc extends Bloc<DataChartEvent, DataChartState> {
                 .isAfter(DateTime.now().subtract(Duration(days: 28))))
             .map((e) => [e.ph, e.dateTime?.day])
             .toList();
-        emit(DataChartPhState(datas: d, MaxX: 28));
+        List <dynamic> s_d = [];
+       num length = s_d.length / 5 ;
+        for(int i =1  ; i <=5 ; i++){
+          num a = 0;
+          s_d.add(d[i][0]);
+          a = a+length ;
+        }
+
+        emit(DataChartPhState(datas: s_d, MaxX: 28));
 
 
       } else if (event.period == "Year") {
@@ -86,17 +140,31 @@ class DataChartBloc extends Bloc<DataChartEvent, DataChartState> {
                 .isAfter(DateTime.now().subtract(Duration(days: 365))))
             .map((e) => [e.ph, e.dateTime?.month])
             .toList();
-        emit(DataChartPhState(datas: d, MaxX: 12));
+        List <dynamic> s_d = [];
+        num length = s_d.length / 5 ;
+        for(int i =1  ; i <=5 ; i++){
+          num a = 0;
+          s_d.add(d[i][0]);
+          a = a+length ;
+        }
+        emit(DataChartPhState(datas: s_d, MaxX: 12));
 
       }
 
     });
 
     on<DataChartSoilsEvent>((event, emit) async {
-      Response rep = await dataRepository.GetDataBYUserId(credentials);
-      if (rep.statusCode == 200) {
-        datas = rep.data!.map((e) => Data.fromJson(e)).toList();
+      if(!load){
+        Response rep = await dataRepository.GetDataBYUserId(credentials);
+        if (rep.statusCode == 200) {
+          datas = rep.data!.map((e) => Data.fromJson(e)).toList() ;
+          print(datas);
+          load = true ;
+
+        }
+
       }
+
       List<dynamic> d = [];
       if (event.period == "Day") {
         d = datas
@@ -104,7 +172,14 @@ class DataChartBloc extends Bloc<DataChartEvent, DataChartState> {
                 .isAfter(DateTime.now().subtract(Duration(hours: 5))))
             .map((e) => [e.soils, e.dateTime?.hour])
             .toList();
-        emit(DataChartSoilsState(datas: d, MaxX: 24));
+        List <dynamic> s_d = [];
+        num length = s_d.length / 5 ;
+        for(int i =1  ; i <=5 ; i++){
+          num a = 0;
+          s_d.add(d[i][0]);
+          a = a+length ;
+        }
+        emit(DataChartSoilsState(datas: s_d, MaxX: 24));
 
       } else if (event.period == "Month") {
         d = datas
@@ -112,7 +187,14 @@ class DataChartBloc extends Bloc<DataChartEvent, DataChartState> {
                 .isAfter(DateTime.now().subtract(Duration(days: 28))))
             .map((e) => [e.soils, e.dateTime?.day])
             .toList();
-        emit(DataChartSoilsState(datas: d, MaxX: 28));
+        List <dynamic> s_d = [];
+        num length = s_d.length / 5 ;
+        for(int i =1  ; i <=5 ; i++){
+          num a = 0;
+          s_d.add(d[i][0]);
+          a = a+length ;
+        }
+        emit(DataChartSoilsState(datas: s_d, MaxX: 28));
 
       } else if (event.period == "Year") {
         d = datas
@@ -120,8 +202,15 @@ class DataChartBloc extends Bloc<DataChartEvent, DataChartState> {
                 .isAfter(DateTime.now().subtract(Duration(days: 365))))
             .map((e) => [e.soils, e.dateTime?.month])
             .toList();
-
-        emit(DataChartSoilsState(datas: d, MaxX: 12));
+        List <dynamic> s_d = [];
+        num length = s_d.length / 5 ;
+        for(int i =1  ; i <=5 ; i++){
+          num a = 0;
+          s_d.add(d[i][0]);
+          a = a+length ;
+        }
+        print(s_d);
+        emit(DataChartSoilsState(datas: s_d, MaxX: 12));
 
       }
     });

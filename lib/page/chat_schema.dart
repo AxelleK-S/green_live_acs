@@ -90,4 +90,8 @@ class ChatStructure extends StatelessWidget {
       ),
     );
   }
+
 }
+
+}
+

@@ -129,13 +129,13 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver {
               });
 
               return Scaffold(
-                floatingActionButton: FloatingActionButton(onPressed: () {
-                  context.read<LoginBloc>().add(DelToken());
-
-                },
-                  child : Icon((Icons.delete))
-
-                ),
+                // floatingActionButton: FloatingActionButton(onPressed: () {
+                //   context.read<LoginBloc>().add(DelToken());
+                //
+                // },
+                //   child : Icon((Icons.delete))
+                //
+                // ),
                   body: state.page);
             },
           )),

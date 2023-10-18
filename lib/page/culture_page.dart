@@ -13,7 +13,7 @@ class CulturePage extends StatelessWidget {
     double screenHeight = mediaQuery.size.height;
     List culture = [
       {
-        "name": "Potato",
+        "name": "Potatoe",
         "image": "assets/potato.png",
         "molecule": 200,
         "momth": "sep-dec",

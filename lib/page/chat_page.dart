@@ -27,6 +27,10 @@ class ChatScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+
     TextEditingController controller = TextEditingController();
     String getCurrentTime() {
       var now = DateTime.now();
@@ -53,11 +57,19 @@ class ChatScreen extends StatelessWidget {
               print (state.message);
               messages.add(ChatMessage(text: state.message, date: getCurrentTime(), isUser: false, loading: false));
               return ChatStructure(
+
                 messages: messages,
                 controller: controller,
                 onSend: () {
                   context.read<MessageBloc>().add(MessageSend(message: controller.text));
                 },
+
+                  messages: messages,
+                  controller: controller,
+                  onSend: () {
+                    context.read<MessageBloc>().add(MessageSend(message: controller.text));
+                  },
+
               );
             }
             if (state is MessageLoading){

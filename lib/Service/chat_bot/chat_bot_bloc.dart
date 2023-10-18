@@ -17,7 +17,7 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
       print(response);
       print('message');
       if (response != null){ ///TODO : put the great condition
-        emit(MessageLoaded(response.toString()));
+        emit(MessageLoaded(response.toString().replaceAll(RegExp(r'[^\x00-\x7F|\n]'), "").replaceAll("predict :", "")));
       } else {
         emit(const MessageFailed('error while sending the message please retry'));
       }

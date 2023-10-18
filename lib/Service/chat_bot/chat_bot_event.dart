@@ -4,7 +4,8 @@ abstract class MessageEvent extends Equatable {
   const MessageEvent();
 }
 class MessageSend extends MessageEvent {
-  late final String message;
+  final String message;
+  const MessageSend({required this.message});
   @override
   // TODO: implement props
   List<Object?> get props => [message];

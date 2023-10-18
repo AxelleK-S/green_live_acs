@@ -6,9 +6,12 @@ class ChatMessage {
   //si isUser = true c'est le message de l'utilisateur sinon celui du bot
   final bool isUser;
 
-  const ChatMessage({
+  final bool loading;
+
+  const ChatMessage( {
     required this.text,
     required this.date,
-    required this.isUser
+    required this.isUser,
+    required this.loading,
   });
 }

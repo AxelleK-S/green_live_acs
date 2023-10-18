@@ -41,17 +41,17 @@ class DataChartBloc extends Bloc<DataChartEvent, DataChartState> {
       if (event.period == "Day") {
         d = datas
             .where((element) => element.dateTime!
-                .isAfter(DateTime.now().subtract(Duration(hours: 5))))
+                .isAfter(DateTime.now().subtract(Duration(hours: 16))))
             .map((e) =>(e.humidity, e.dateTime?.hour))
             .toList();
         List <(dynamic,dynamic)> s_d = [];
-        int length = (s_d.length / 5).toInt() ;
+        int length = (d.length / 16).toInt() ;
         int a = 0;
-        for(int i =1  ; i <=5 ; i++){
+        for(int i =1  ; i <=16 ; i++){
           s_d.add(d[a]);
           a = a+length ;
         }
-        emit(DataChartHumidityState(datas: d, MaxX: 24));
+        emit(DataChartHumidityState(datas: s_d, MaxX: 24));
 
       } else if (event.period == "Month") {
         d = datas
@@ -59,10 +59,10 @@ class DataChartBloc extends Bloc<DataChartEvent, DataChartState> {
                 .isAfter(DateTime.now().subtract(Duration(days: 28))))
             .map((e) => (e.humidity, e.dateTime?.day))
             .toList();
-        List <dynamic> s_d = [];
-        int length = (s_d.length / 5).toInt() ;
+        List <(dynamic , dynamic )> s_d = [];
+        int length = (d.length / 16).toInt() ;
         int a = 0;
-        for(int i =1  ; i <=5 ; i++){
+        for(int i =1  ; i <=16 ; i++){
           s_d.add(d[a]);
           a = a+length ;
         }
@@ -71,13 +71,13 @@ class DataChartBloc extends Bloc<DataChartEvent, DataChartState> {
       } else if (event.period == "Year") {
         d = datas
             .where((element) => element.dateTime!
-                .isAfter(DateTime.now().subtract(Duration(days: 365))))
+                .isAfter(DateTime.now().subtract(Duration(days: 3616))))
             .map((e) => (e.humidity, e.dateTime?.month))
             .toList();
-        List <dynamic> s_d = [];
-        int length = (s_d.length / 5).toInt() ;
+        List <(dynamic , dynamic)> s_d = [];
+        int length = (d.length / 16).toInt() ;
         int a = 0;
-        for(int i =1  ; i <=5 ; i++){
+        for(int i =1  ; i <=16 ; i++){
           s_d.add(d[a]);
           a = a+length ;
         }
@@ -105,17 +105,17 @@ class DataChartBloc extends Bloc<DataChartEvent, DataChartState> {
       if (event.period == "Day") {
         d = datas
             .where((element) => element.dateTime!
-                .isAfter(DateTime.now().subtract(Duration(hours: 5))))
+                .isAfter(DateTime.now().subtract(Duration(hours: 16))))
             .map((e) => (e.ph, e.dateTime?.hour))
             .toList();
-        List <dynamic> s_d = [];
-        int length = (s_d.length / 5).toInt() ;
+        List <(dynamic , dynamic)> s_d = [];
+        int length = (d.length / 16).toInt() ;
         int a = 0;
-        for(int i =1  ; i <=5 ; i++){
+        for(int i =1  ; i <=16 ; i++){
           s_d.add(d[a]);
           a = a+length ;
         }
-        emit(DataChartPhState(datas: d, MaxX: 24));
+        emit(DataChartPhState(datas: s_d, MaxX: 24));
 
 
       }
@@ -125,8 +125,8 @@ class DataChartBloc extends Bloc<DataChartEvent, DataChartState> {
                 .isAfter(DateTime.now().subtract(Duration(days: 28))))
             .map((e) => (e.ph, e.dateTime?.day))
             .toList();
-        List <dynamic> s_d = [];
-        int length = (s_d.length / 5).toInt() ;
+        List <(dynamic , dynamic)> s_d = [];
+        int length = (d.length / 16).toInt() ;
         int a = 0;
         if(d.isNotEmpty){
           for(int i =0  ; i <4 ; i++){
@@ -145,13 +145,13 @@ class DataChartBloc extends Bloc<DataChartEvent, DataChartState> {
       } else if (event.period == "Year") {
         d = datas
             .where((element) => element.dateTime!
-                .isAfter(DateTime.now().subtract(Duration(days: 365))))
+                .isAfter(DateTime.now().subtract(Duration(days: 3616))))
             .map((e) => (e.ph, e.dateTime?.month))
             .toList();
-        List <dynamic> s_d = [];
-        int length = (s_d.length / 5).toInt() ;
+        List <(dynamic , dynamic)> s_d = [];
+        int length = (d.length / 16).toInt() ;
         int a = 0;
-        for(int i =1  ; i <=5 ; i++){
+        for(int i =1  ; i <=16 ; i++){
           s_d.add(d[a]);
           a = a+length ;
         }
@@ -173,33 +173,33 @@ class DataChartBloc extends Bloc<DataChartEvent, DataChartState> {
 
       }
 
-      List<dynamic> d = [];
+      List<(dynamic , dynamic)> d = [];
       if (event.period == "Day") {
         d = datas
             .where((element) => element.dateTime!
-                .isAfter(DateTime.now().subtract(Duration(hours: 5))))
-            .map((e) => [e.soils, e.dateTime?.hour])
+                .isAfter(DateTime.now().subtract(Duration(hours: 16))))
+            .map((e) => (e.soils, e.dateTime?.hour))
             .toList();
-        List <dynamic> s_d = [];
-        int length = (s_d.length / 5).toInt() ;
+        List <(dynamic , dynamic)> s_d = [];
+        int length = (d.length / 16).toInt() ;
         int a = 0;
-        for(int i =1  ; i <=5 ; i++){
-          s_d.add(d[i][0]);
+        for(int i =1  ; i <=16 ; i++){
+          s_d.add(d[a]);
           a = a+length ;
         }
-        emit(DataChartSoilsState(datas: d, MaxX: 24));
+        emit(DataChartSoilsState(datas: s_d, MaxX: 24));
 
       } else if (event.period == "Month") {
         d = datas
             .where((element) => element.dateTime!
                 .isAfter(DateTime.now().subtract(Duration(days: 28))))
-            .map((e) => [e.soils, e.dateTime?.day])
+            .map((e) => (e.soils, e.dateTime?.day))
             .toList();
-        List <dynamic> s_d = [];
-        int length = (s_d.length / 5).toInt() ;
+        List <(dynamic , dynamic)> s_d = [];
+        int length = (d.length / 16).toInt() ;
         int a = 0;
-        for(int i =1  ; i <=5 ; i++){
-          s_d.add(d[i][0]);
+        for(int i =1  ; i <=16 ; i++){
+          s_d.add(d[a]);
           a = a+length ;
         }
         emit(DataChartSoilsState(datas: s_d, MaxX: 28));
@@ -207,18 +207,18 @@ class DataChartBloc extends Bloc<DataChartEvent, DataChartState> {
       } else if (event.period == "Year") {
         d = datas
             .where((element) => element.dateTime!
-                .isAfter(DateTime.now().subtract(Duration(days: 365))))
-            .map((e) => [e.soils, e.dateTime?.month])
+                .isAfter(DateTime.now().subtract(Duration(days: 3616))))
+            .map((e) => (e.soils, e.dateTime?.month))
             .toList();
-        List <dynamic> s_d = [];
-        int length = (s_d.length / 5).toInt() ;
+        List <(dynamic , dynamic)> s_d = [];
+        int length = (d.length / 16).toInt() ;
         int a = 0;
-        for(int i =1  ; i <5 ; i++){
-          s_d.add(d[i][0]);
+        for(int i =1  ; i <16 ; i++){
+          s_d.add(d[a]);
           a = a+length ;
         }
         print(s_d);
-        emit(DataChartSoilsState(datas: d, MaxX: 12));
+        emit(DataChartSoilsState(datas: s_d, MaxX: 12));
 
       }
     });

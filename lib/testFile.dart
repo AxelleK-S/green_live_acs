@@ -44,4 +44,13 @@ void main(){
 }
 """ ;
   Data data = Data.fromJson(JsonDecoder().convert(jsonFIle));
+ // Créer un tuple de deux valeurs
+ var tuple = (1, "Hello, world!");
+
+// Affichage du tuple
+  print(tuple); // (1, "Hello, world!")
+
+// Accès aux valeurs du tuple
+  print(tuple.$1); // 1
+  print(tuple.$2);
 }

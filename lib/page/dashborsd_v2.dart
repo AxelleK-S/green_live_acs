@@ -666,7 +666,7 @@ class DashboardV2 extends StatelessWidget {
       lineBarsData: [
         LineChartBarData(
           spots: state.datas
-              .map((e) => FlSpot( e.get(1), e.get(0)))
+              .map((e) => FlSpot(e.$2+0.0, e.$1+0.0))
               .toList(),
           // [
           //FlSpot(0, 0),

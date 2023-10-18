@@ -46,9 +46,19 @@ void main(){
   Data data = Data.fromJson(JsonDecoder().convert(jsonFIle));
  // Créer un tuple de deux valeurs
  var tuple = (1, "Hello, world!");
+ List<(dynamic, dynamic)> tuples = [
+  (1, 10),
+  (6, 5),
+  (3, 15),
+  (4, 7),
+ ];
 
+// Trier la liste de tuples en fonction de la deuxième valeur
+ tuples.sort(
+   (a, b) => a.$2.compareTo(b.$2),
+ );
 // Affichage du tuple
-  print(tuple); // (1, "Hello, world!")
+  print(tuples); // (1, "Hello, world!")
 
 // Accès aux valeurs du tuple
   print(tuple.$1); // 1

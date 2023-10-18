@@ -18,21 +18,21 @@ class DashboardPages extends StatelessWidget {
     {
       'color': Colors.green,
       'image': 'assets/briefcase.png',
-      'title': 'Salary',
+      'title': 'ph',
       'date': 'June 28, 20200',
       'cost': '+\$526'
     },
     {
       'color': Colors.brown,
-      'image': 'assets/paypal.png',
-      'title': 'Paypal',
+      'image': 'assets/briefcase.png',
+      'title': 'soil',
       'date': 'June 8, 2022',
       'cost': '+\$256'
     },
     {
       'color': Color(0xffFED9A7),
       'image': 'assets/more.png',
-      'title': 'More',
+      'title': 'fertilizer',
       'date': 'June 8, 2022',
       'cost': '+\$256'
     },
@@ -156,7 +156,7 @@ class DashboardPages extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text('Payments History', style: GoogleFonts.roboto(
+                    Text('Spend History', style: GoogleFonts.roboto(
                         color: MyColors.primaryColor,
 
                         fontSize: 24, fontWeight: FontWeight.w500)),

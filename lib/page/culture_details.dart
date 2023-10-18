@@ -75,7 +75,7 @@ class CultureDetails extends StatelessWidget {
                         DetailsCard(
                           icons: Icons.calendar_month_rounded,
                           title: 'Month',
-                          value: routes["month"],
+                          value: routes["momth"],
                         ),
                         DetailsCard(
                             icons: Icons.water_drop_outlined,

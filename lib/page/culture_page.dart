@@ -13,17 +13,14 @@ class CulturePage extends StatelessWidget {
     double screenHeight = mediaQuery.size.height;
     List culture = [
       {
-        "name": "potatos",
-        "image": "assets/potatos.png",
+        "name": "Potato",
+        "image": "assets/potato.png",
         "molecule": 200,
         "momth": "sep-dec",
         "water" : "1-2",
         "temp": "15-20",
         "light":"8-12" ,
-        "text": '''
-        
-Voici un guide détaillé sur la culture de la pomme de terre, avec des pratiques exemplaires et des conditions adéquates :
-
+        "text": '''     
 Introduction
 
 The potato (Solanum tuberosum) is a starchy tuber that is a staple food for over 1 billion people worldwide. It is a cool-season crop that prefers a temperate climate with cool nights. It can be grown in a variety of soil types, but it does best in well-drained, loamy soil.
@@ -103,16 +100,16 @@ Harvest the potatoes when they are firm and have a smooth skin.
 
       },
       {
-        "name" : "plantain",
+        "name" : "Plantain",
         "image" : "assets/plantain.png",
         "molecule" : 300,
         "momth": "jun-sep",
         "water" :"1-2",
         "temp": "25-30",
         "light":"8-12",
-        "text": ''''
-        Introduction
-
+        "text": '''
+Introduction
+        
 The plantain (Musa × paradisiaca) is a starchy fruit that is a staple food for over 100 million people worldwide. It is a tropical crop that prefers a warm, humid climate. It can be grown in a variety of soil types, but it does best in well-drained, sandy loam soil.
 
 Practices
@@ -192,7 +189,7 @@ Harvest the bananas when they are fully ripe for the best flavor and nutrition.
         '''''
       },
       {
-        "name" : "casava",
+        "name" : "Casava",
         "image" : "assets/manioc.png",
         "molecule" : 400,
         "momth": "jun",
@@ -200,9 +197,6 @@ Harvest the bananas when they are fully ripe for the best flavor and nutrition.
         "temp": "25-30",
         "light":"8-12" ,
         "text": '''
-        
-Bien sûr, voici un guide détaillé sur la culture du manioc, avec des pratiques exemplaires et des conditions adéquates :
-
 Introduction
 
 Cassava (Manihot esculenta) is a starchy tuber crop that is a staple food for over 800 million people worldwide. It is a drought-tolerant crop that can be grown in a variety of soil types, making it a popular choice for farmers in developing countries.

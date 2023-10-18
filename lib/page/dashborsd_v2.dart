@@ -32,7 +32,7 @@ class DashboardV2 extends StatelessWidget {
   String period = 'Day';
   @override
   Widget build(BuildContext context) {
-    final routes = ModalRoute.of(context)?.settings.arguments as String;
+    dynamic routes = ModalRoute.of(context)?.settings.arguments ;
     print(routes);
     bool showAvg = false;
     var mediaQuery = MediaQuery.of(context);
@@ -41,7 +41,7 @@ class DashboardV2 extends StatelessWidget {
 
     // TODO: implement build
     return BlocProvider(
-      create: (context) => DataChartBloc(credentials: routes),
+      create: (context) => DataChartBloc(credentials: routes["id"]),
       child: BlocProvider(
           create: (context) => MenuStyleBloc(),
           child: BlocBuilder<MenuStyleBloc, MenuStyleState>(
@@ -76,15 +76,15 @@ class DashboardV2 extends StatelessWidget {
                                         CrossAxisAlignment.center,
                                     children: [
                                       Text(
-                                        "My Pineapple Farm",
+                                        routes["name"],
                                         style: GoogleFonts.roboto(
                                             fontSize: 20,
                                             fontWeight: FontWeight.bold,
                                             color: Color(0xFF3E3E41)),
                                       ),
-                                      Text("Douala 5 , Akwa boulevard",
+                                      Text("Douala ,wouri rue 15 akwa",
                                           style: GoogleFonts.roboto(
-                                              fontSize: 10,
+                                              fontSize: 15,
                                               fontWeight: FontWeight.bold))
                                     ]),
                                 IconButton(

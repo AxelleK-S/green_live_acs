@@ -139,8 +139,11 @@ class AddFarmPage extends StatelessWidget {
                                                                 RouteSettings(
                                                                     name:
                                                                         "kitID",
-                                                                    arguments: e
-                                                                        .kitId),
+                                                                    arguments: {"id":e
+                                                                        .kitId,
+                                                                        "name":e.name,
+                                                                      "culture":e.cultureId
+                                                                    }),
                                                             pageBuilder: (__,
                                                                     ___,
                                                                     ____) =>

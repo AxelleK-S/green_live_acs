@@ -51,6 +51,8 @@ class DataChartBloc extends Bloc<DataChartEvent, DataChartState> {
           s_d.add(d[a]);
           a = a+length ;
         }
+        s_d.sort((a, b) => a.$2.compareTo(b.$2));
+
         emit(DataChartHumidityState(datas: s_d, MaxX: 24));
 
       } else if (event.period == "Month") {
@@ -66,6 +68,8 @@ class DataChartBloc extends Bloc<DataChartEvent, DataChartState> {
           s_d.add(d[a]);
           a = a+length ;
         }
+        s_d.sort((a, b) => a.$2.compareTo(b.$2));
+
         emit(DataChartHumidityState(datas: s_d, MaxX: 28));
 
       } else if (event.period == "Year") {
@@ -81,6 +85,8 @@ class DataChartBloc extends Bloc<DataChartEvent, DataChartState> {
           s_d.add(d[a]);
           a = a+length ;
         }
+        s_d.sort((a, b) => a.$2.compareTo(b.$2));
+
         emit(DataChartHumidityState(datas: s_d, MaxX: 12));
 
       }
@@ -115,6 +121,8 @@ class DataChartBloc extends Bloc<DataChartEvent, DataChartState> {
           s_d.add(d[a]);
           a = a+length ;
         }
+        s_d.sort((a, b) => a.$2.compareTo(b.$2));
+
         emit(DataChartPhState(datas: s_d, MaxX: 24));
 
 
@@ -129,13 +137,14 @@ class DataChartBloc extends Bloc<DataChartEvent, DataChartState> {
         int length = (d.length / 16).toInt() ;
         int a = 0;
         if(d.isNotEmpty){
-          for(int i =0  ; i <4 ; i++){
+          for(int i =0  ; i <16 ; i++){
             s_d.add(d[a]);
             a = a+length ;
 
           }
 
         }
+        s_d.sort((a, b) => a.$2.compareTo(b.$2));
 
         s_d.forEach((element) => print("yes my god thad is it ${element}"));
 
@@ -155,6 +164,7 @@ class DataChartBloc extends Bloc<DataChartEvent, DataChartState> {
           s_d.add(d[a]);
           a = a+length ;
         }
+        s_d.sort((a, b) => a.$2.compareTo(b.$2));
         emit(DataChartPhState(datas: s_d, MaxX: 12));
 
       }
@@ -187,6 +197,8 @@ class DataChartBloc extends Bloc<DataChartEvent, DataChartState> {
           s_d.add(d[a]);
           a = a+length ;
         }
+        s_d.sort((a, b) => a.$2.compareTo(b.$2));
+
         emit(DataChartSoilsState(datas: s_d, MaxX: 24));
 
       } else if (event.period == "Month") {
@@ -202,6 +214,8 @@ class DataChartBloc extends Bloc<DataChartEvent, DataChartState> {
           s_d.add(d[a]);
           a = a+length ;
         }
+        s_d.sort((a, b) => a.$2.compareTo(b.$2));
+
         emit(DataChartSoilsState(datas: s_d, MaxX: 28));
 
       } else if (event.period == "Year") {
@@ -218,6 +232,8 @@ class DataChartBloc extends Bloc<DataChartEvent, DataChartState> {
           a = a+length ;
         }
         print(s_d);
+        s_d.sort((a, b) => a.$2.compareTo(b.$2));
+
         emit(DataChartSoilsState(datas: s_d, MaxX: 12));
 
       }

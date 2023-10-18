@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:green_live_acs/page/chat_schema.dart';
 import 'package:provider/provider.dart';
 import 'package:green_live_acs/Service/chat_bot/chat_bot_bloc.dart';
 import 'package:green_live_acs/persistence/ai_api.dart';
@@ -56,243 +57,34 @@ class ChatScreen extends StatelessWidget {
             if (state is MessageInitial){
               print (state.message);
               messages.add(ChatMessage(text: state.message, date: getCurrentTime(), isUser: false, loading: false));
-              return Scaffold(
-                backgroundColor: Colors.white.withOpacity(0.95),
-                body: SingleChildScrollView(
-                  child: SafeArea(
-                    child: Column(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.all(20.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              BackArrow(onTap: () {
-                                Navigator.pop(context);
-                              },),
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.grey.shade100,
-                                  borderRadius: BorderRadius.circular(30),
-                                ),
-                                child: const Padding(
-                                  padding: EdgeInsets.all(10.0),
-                                  child: Text("Gerome", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          width: width/1.1,
-                          height: height/1.4,
-                          child: SingleChildScrollView(
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: messages.map((message) {
-                                  if(message.isUser) {
-                                    return UserMessage(text: message.text, date: message.date);
-                                  }
-                                  return BotMessage(text: message.text, date: message.date, loading: false,);
-                                }).toList()
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(30)
-                            ),
-                            child: TextFormField(
-                              controller: controller,
-                              decoration: InputDecoration(
-                                fillColor: Colors.white,
-                                focusColor: Colors.white,
-                                hintText: "Ask anything...",
-                                hintStyle: TextStyle(color: Colors.grey.shade500, fontWeight: FontWeight.w400),
-                                border: OutlineInputBorder(borderRadius: BorderRadius.circular(40)),
-                                prefixIcon: IconButton(
-                                  onPressed: (){},
-                                  icon: const Icon(Icons.attach_file),
-                                ),
-                                suffixIcon: IconButton(
-                                  onPressed: (){
-                                    context.read<MessageBloc>().add(MessageSend(message: controller.text));
-                                    //messages.add(ChatMessage(text: controller.text, date: getCurrentTime(), isUser: true))  ;
-                                  },
-                                  icon: const Icon(Icons.send_sharp, size: 30,),
-                                ),
-                              ),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
+              return ChatStructure(
+                  messages: messages,
+                  controller: controller,
+                  onSend: () {
+                    context.read<MessageBloc>().add(MessageSend(message: controller.text));
+                  },
               );
             }
             if (state is MessageLoading){
               messages.add(ChatMessage(text: state.message, date: getCurrentTime(), isUser: true, loading: false));
               messages.add(ChatMessage(text: state.message, date: getCurrentTime(), isUser: false, loading: true));
-              return Scaffold(
-                backgroundColor: Colors.white.withOpacity(0.95),
-                body: SingleChildScrollView(
-                  child: SafeArea(
-                    child: Column(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.all(20.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              BackArrow(onTap: () {
-                                Navigator.pop(context);
-                              },),
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.grey.shade100,
-                                  borderRadius: BorderRadius.circular(30),
-                                ),
-                                child: const Padding(
-                                  padding: EdgeInsets.all(10.0),
-                                  child: Text("Gerome", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          width: width/1.1,
-                          height: height/1.4,
-                          child: SingleChildScrollView(
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: messages.map((message) {
-                                  if(message.isUser) {
-                                    return UserMessage(text: message.text, date: message.date);
-                                  }
-                                  return BotMessage(text: message.text, date: message.date, loading: message.loading,);
-                                }).toList()
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(30)
-                            ),
-                            child: TextFormField(
-                              controller: controller,
-                              decoration: InputDecoration(
-                                fillColor: Colors.white,
-                                focusColor: Colors.white,
-                                hintText: "Ask anything...",
-                                hintStyle: TextStyle(color: Colors.grey.shade500, fontWeight: FontWeight.w400),
-                                border: OutlineInputBorder(borderRadius: BorderRadius.circular(40)),
-                                prefixIcon: IconButton(
-                                  onPressed: (){},
-                                  icon: const Icon(Icons.attach_file),
-                                ),
-                                suffixIcon: IconButton(
-                                  onPressed: (){
-                                    //null no action because it is loading
-                                  },
-                                  icon: const Icon(Icons.send_sharp, size: 30,),
-                                ),
-                              ),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
+              return ChatStructure(
+                messages: messages,
+                controller: controller,
+                onSend: () {
+
+                },
               );
             }
             if (state is MessageLoaded){
               messages.removeLast();
               messages.add(ChatMessage(text: state.message, date: getCurrentTime(), isUser: false, loading: false));
-              return Scaffold(
-                backgroundColor: Colors.white.withOpacity(0.95),
-                body: SingleChildScrollView(
-                  child: SafeArea(
-                    child: Column(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.all(20.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              BackArrow(onTap: () {
-                                Navigator.pop(context);
-                              },),
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.grey.shade100,
-                                  borderRadius: BorderRadius.circular(30),
-                                ),
-                                child: const Padding(
-                                  padding: EdgeInsets.all(10.0),
-                                  child: Text("Gerome", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          width: width/1.1,
-                          height: height/1.4,
-                          child: SingleChildScrollView(
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: messages.map((message) {
-                                  if(message.isUser) {
-                                    return UserMessage(text: message.text, date: message.date);
-                                  }
-                                  return BotMessage(text: message.text, date: message.date, loading: false,);
-                                }).toList()
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(30)
-                            ),
-                            child: TextFormField(
-                              controller: controller,
-                              decoration: InputDecoration(
-                                fillColor: Colors.white,
-                                focusColor: Colors.white,
-                                hintText: "Ask anything...",
-                                hintStyle: TextStyle(color: Colors.grey.shade500, fontWeight: FontWeight.w400),
-                                border: OutlineInputBorder(borderRadius: BorderRadius.circular(40)),
-                                prefixIcon: IconButton(
-                                  onPressed: (){},
-                                  icon: const Icon(Icons.attach_file),
-                                ),
-                                suffixIcon: IconButton(
-                                  onPressed: (){
-                                    context.read<MessageBloc>().add(MessageSend(message: controller.text));
-                                    //messages.add(ChatMessage(text: controller.text, date: getCurrentTime(), isUser: true))  ;
-                                  },
-                                  icon: const Icon(Icons.send_sharp, size: 30,),
-                                ),
-                              ),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
+              return ChatStructure(
+                messages: messages,
+                controller: controller,
+                onSend: () {
+                  context.read<MessageBloc>().add(MessageSend(message: controller.text));
+                },
               );
             }
             else {

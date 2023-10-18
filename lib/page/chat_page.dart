@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 
 import '../component/back_arrow.dart';
@@ -14,9 +15,16 @@ class ChatPage extends StatelessWidget {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+    TextEditingController controller = TextEditingController();
+    String getCurrentTime() {
+      var now = DateTime.now();
+      var formatter = DateFormat('h:mm a');
+      return formatter.format(now);
+    }
+
     List<ChatMessage> messages = [
-      const ChatMessage(text: "Hello dear, i love you so much", date: "14:21 PM", isUser: true),
-      const ChatMessage(text: "Okay, give me a minute to answer you", date: "14:24 PM", isUser: false)
+      //const ChatMessage(text: "Hello dear, i love you so much", date: "14:21 PM", isUser: true),
+      const ChatMessage(text: "Hello and welcome, i'm Gerome and i will answer your questions", date: "14:54 PM", isUser: false)
     ];
 
     return Scaffold(
@@ -69,6 +77,7 @@ class ChatPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(30)
                   ),
                   child: TextFormField(
+                    controller: controller,
                     decoration: InputDecoration(
                       fillColor: Colors.white,
                       focusColor: Colors.white,
@@ -81,7 +90,7 @@ class ChatPage extends StatelessWidget {
                       ),
                       suffixIcon: IconButton(
                         onPressed: (){
-
+                          messages.add(ChatMessage(text: controller.text, date: getCurrentTime(), isUser: true))  ;
                         },
                         icon: const Icon(Icons.send_sharp, size: 30,),
                       ),

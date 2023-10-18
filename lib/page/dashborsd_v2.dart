@@ -650,7 +650,7 @@ class DashboardV2 extends StatelessWidget {
           sideTitles: SideTitles(
             showTitles: true,
             interval: 1,
-            getTitlesWidget: leftTitleWidgets,
+            getTitlesWidget: state.leftTitleWidget,
             reservedSize: 42,
           ),
         ),
@@ -666,7 +666,7 @@ class DashboardV2 extends StatelessWidget {
       lineBarsData: [
         LineChartBarData(
           spots: state.datas
-              .map((e) => FlSpot(e[1].toDouble(), e[0].toDouble()))
+              .map((e) => FlSpot( e.get(1), e.get(0)))
               .toList(),
           // [
           //FlSpot(0, 0),

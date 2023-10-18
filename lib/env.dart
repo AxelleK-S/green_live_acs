@@ -1,4 +1,4 @@
 
-var api_url = "http://172.17.4.121:8080";
-var uris ="ws://172.17.4.121:8080/ws";
+var api_url = "https://green-api-0ga5.onrender.com";
+var uris ="ws://green-api-0ga5.onrender.com/ws";
 var db_url = "http://localhost:8080";

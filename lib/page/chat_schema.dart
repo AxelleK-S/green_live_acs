@@ -52,7 +52,7 @@ class ChatStructure extends StatelessWidget {
                         if(message.isUser) {
                           return UserMessage(text: message.text, date: message.date);
                         }
-                        return BotMessage(text: message.text, date: message.date, loading: false,);
+                        return BotMessage(text: message.text, date: message.date, loading: message.loading,);
                       }).toList()
                   ),
                 ),

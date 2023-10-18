@@ -2,12 +2,11 @@
 
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 
-// pub libs 
+// pub libs
 import 'package:http/http.dart' as http;  // ensure you install http library
 
-String HOST = "http://44.192.247.69:38856";
+String HOST = "http://34.229.62.33:38856";
 
 // -------------------------- CONVERSATION CLASS -------------------
 
@@ -47,7 +46,7 @@ class Conversation {
     //
     return 0;
   }
-  
+
   // Get reply from prompt
   // It is a conversation, so it answers based on all the previous replies.
   Future<String> answer(String prompt) async{
@@ -109,7 +108,7 @@ Future<String> postImage(String imagePath, String host, String endpoint) async {
   // Initialize the request
   var request = http.MultipartRequest('POST', url);
   var image = await http.MultipartFile.fromPath('imagefile', imagePath);
-  
+
   request.files.add(image);
   var streamedResponse = await request.send();
   var response = await http.Response.fromStream(streamedResponse);
@@ -155,6 +154,7 @@ Future<String> getLatestKitData(String kitIds) async {
   // Status of request
   if (response.statusCode == 200){
     // Debug -- print(response.body);
+    print(response.body);
     return response.body;
   } else {
     throw Exception('Failed to load data from the server');
@@ -165,13 +165,13 @@ Future<String> getLatestKitData(String kitIds) async {
 // To test the functions
 void main(List<String> arguments) async {
   var data = {
-      "N": 90,
-      "P": 42,
-      "K": 43,
-      "temperature": 20.879744,
-      "humidity": 75,
-      "ph": 5.5,
-      "rainfall": 220
+    "N": 90,
+    "P": 42,
+    "K": 43,
+    "temperature": 20.879744,
+    "humidity": 75,
+    "ph": 5.5,
+    "rainfall": 220
   };
   var value =  await getCropRecommendation(90, 42, 43, 20, 75, 5.5, 220);
   var value2 = await  getPlantDisease("/home/andrekevin/Documents/greenlive/api/test1.png");

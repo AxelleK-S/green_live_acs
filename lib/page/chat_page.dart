@@ -5,11 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:green_live_acs/Service/chat_bot/chat_bot_bloc.dart';
 import 'package:green_live_acs/persistence/ai_api.dart';
 import 'package:intl/intl.dart';
-
-
-import '../component/back_arrow.dart';
-import '../component/bot_message.dart';
-import '../component/user_message.dart';
 import '../model/chat_message.dart';
 
 
@@ -18,8 +13,10 @@ class ChatPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    dynamic routes = ModalRoute.of(context)?.settings.arguments ;
+
     return Provider(
-      create: (context) => MessageBloc(chat: Conversation('6262')),
+      create: (context) => MessageBloc(chat: Conversation(routes["id"])),
       child: const ChatScreen(),
     );
   }
@@ -30,8 +27,6 @@ class ChatScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
     TextEditingController controller = TextEditingController();
     String getCurrentTime() {
       var now = DateTime.now();
@@ -58,11 +53,11 @@ class ChatScreen extends StatelessWidget {
               print (state.message);
               messages.add(ChatMessage(text: state.message, date: getCurrentTime(), isUser: false, loading: false));
               return ChatStructure(
-                  messages: messages,
-                  controller: controller,
-                  onSend: () {
-                    context.read<MessageBloc>().add(MessageSend(message: controller.text));
-                  },
+                messages: messages,
+                controller: controller,
+                onSend: () {
+                  context.read<MessageBloc>().add(MessageSend(message: controller.text));
+                },
               );
             }
             if (state is MessageLoading){
@@ -77,7 +72,8 @@ class ChatScreen extends StatelessWidget {
               );
             }
             if (state is MessageLoaded){
-              messages.removeLast();
+              messages.removeAt(messages.length - 1);
+              //messages.remove(ChatMessage(text: state.message, date: getCurrentTime(), isUser: false, loading: true));
               messages.add(ChatMessage(text: state.message, date: getCurrentTime(), isUser: false, loading: false));
               return ChatStructure(
                 messages: messages,

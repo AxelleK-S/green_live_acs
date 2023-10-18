@@ -373,6 +373,10 @@ class DashboardV2 extends StatelessWidget {
                                               Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
+                                                    settings: RouteSettings(
+                                                      name: "chat",
+                                                      arguments: routes
+                                                    ),
                                                     builder: (context) =>
                                                         ChatPage(),
                                                   ));

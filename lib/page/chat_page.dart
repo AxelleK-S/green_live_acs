@@ -18,8 +18,10 @@ class ChatPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    dynamic routes = ModalRoute.of(context)?.settings.arguments ;
+
     return Provider(
-      create: (context) => MessageBloc(chat: Conversation('6262')),
+      create: (context) => MessageBloc(chat: Conversation(routes["id"])),
       child: const ChatScreen(),
     );
   }
@@ -32,6 +34,7 @@ class ChatScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+
     TextEditingController controller = TextEditingController();
     String getCurrentTime() {
       var now = DateTime.now();

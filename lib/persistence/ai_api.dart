@@ -6,7 +6,7 @@ import 'dart:convert';
 // pub libs 
 import 'package:http/http.dart' as http;  // ensure you install http library
 
-String HOST = "http://44.192.247.69:38856";
+String HOST = "http://34.229.62.33:38856";
 
 // -------------------------- CONVERSATION CLASS -------------------
 
@@ -154,6 +154,7 @@ Future<String> getLatestKitData(String kitIds) async {
   // Status of request
   if (response.statusCode == 200){
     // Debug -- print(response.body);
+    print(response.body);
     return response.body;
   } else {
     throw Exception('Failed to load data from the server');

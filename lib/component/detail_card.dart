@@ -23,7 +23,7 @@ class DetailsCard extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Row(
               children: [
-                Icon(icons , color: Color(0xff6C6C6C),),
+                Icon(icons , color: Color(0xff696868),),
                 SizedBox(width: 10,),
                 Expanded(
                   child: Column(

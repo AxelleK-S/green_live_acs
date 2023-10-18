@@ -4,10 +4,13 @@ import 'dart:ui';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:green_live_acs/repository/data_repository.dart';
 
 import '../../model/Data.dart';
+import '../../ressouces/my_colors.dart';
 import '../web_socket/server.dart';
 
 part 'data_manage_event.dart';
@@ -25,20 +28,12 @@ List<Data> datas = [];
     this.server.getStream().listen((message) async {
       print(message);
       try{
+
         Data data = Data.fromJson(JsonDecoder().convert(message));
-        //print("ok");
-        var response = await dataRepository.GetDataBYUserId(credentials);
-        if(response.statusCode == 200){
-          List<dynamic> datas = response.data;
-          this.datas = datas.map((e) => Data.fromJson(e)).toList();
-          print(datas);
-          if(data.dateTime!.isAfter(DateTime.now().subtract(Duration(hours: 5)))){
-            this.datas = this.datas
-            .where((element) => element.dateTime!.isAfter(DateTime.now().subtract(Duration(hours: 8)))).toList();
-            print("hold data");
-          }
-        }
         emit(DataManageInitial(data: data , datas: datas));
+
+        //print("ok");
+
       }catch(e){
         print(e);
       }

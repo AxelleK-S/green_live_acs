@@ -7,6 +7,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:green_live_acs/Service/bottom_chart_bloc/bottom_chart_bloc.dart';
 import 'package:green_live_acs/Service/dashbordBloc/menu_style_bloc.dart';
 import 'package:green_live_acs/Service/pie/pie_bloc.dart';
 import 'package:green_live_acs/component/boutton_menu.dart';
@@ -14,6 +15,7 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'dart:math' as math;
 import 'package:syncfusion_flutter_charts/charts.dart';
 
+import '../Service/data_chart_bloc/data_chart_bloc.dart';
 import '../Service/data_manage/data_manage_bloc.dart';
 import '../ressouces/my_colors.dart';
 import 'chat_page.dart';
@@ -27,6 +29,7 @@ class DashboardV2 extends StatelessWidget {
   ];
 
   var values = 'Day';
+  String period = 'Day';
   @override
   Widget build(BuildContext context) {
     final routes = ModalRoute.of(context)?.settings.arguments as String;
@@ -38,427 +41,497 @@ class DashboardV2 extends StatelessWidget {
 
     // TODO: implement build
     return BlocProvider(
-        create: (context) => MenuStyleBloc(),
-        child: BlocBuilder<MenuStyleBloc, MenuStyleState>(
-            builder: (context, state) {
-          if (state is MenuStyleInitial) {
-            return Scaffold(
-                floatingActionButton: FloatingActionButton(
-                  onPressed: () {
-                    context.read<MenuStyleBloc>().add(MenuStyleEventCLicked());
-                  },
-                  child: Icon(Icons.add),
-                ),
-                body: Stack(children: [
-                  Center(
-                      child: SingleChildScrollView(
-                          child: Column(
-                    children: [
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            IconButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                icon: Icon(Icons.arrow_back_ios_new)),
-                            Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    "My Pineapple Farm",
-                                    style: GoogleFonts.roboto(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                        color: Color(0xFF3E3E41)),
-                                  ),
-                                  Text("Douala 5 , Akwa boulevard",
-                                      style: GoogleFonts.roboto(
-                                          fontSize: 10,
-                                          fontWeight: FontWeight.bold))
-                                ]),
-                            IconButton(
-                                onPressed: () {},
-                                icon: Icon(Icons.more_horiz_outlined))
-                          ]),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Stack(
+      create: (context) => DataChartBloc(credentials: routes),
+      child: BlocProvider(
+          create: (context) => MenuStyleBloc(),
+          child: BlocBuilder<MenuStyleBloc, MenuStyleState>(
+              builder: (context, state) {
+            if (state is MenuStyleInitial) {
+              return BlocProvider(
+                create: (context) => BottomChartBloc(),
+                child: Scaffold(
+                    floatingActionButton: FloatingActionButton(
+                      onPressed: () {
+                        context
+                            .read<MenuStyleBloc>()
+                            .add(MenuStyleEventCLicked());
+                      },
+                      child: Icon(Icons.add),
+                    ),
+                    body: Stack(children: [
+                      Center(
+                          child: SingleChildScrollView(
+                              child: Column(
                         children: [
-                          AspectRatio(
-                            aspectRatio: 1.5,
-                            child: Image.asset("assets/grow.gif"),
-                          ),
-                          //emoji smile
-
-                          Positioned(
-                              right: 30,
-                              child: Text('😁️',
-                                  style: GoogleFonts.roboto(
-                                      fontSize: 30,
-                                      fontWeight: FontWeight.bold))),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      SizedBox(
-                        width: screenWidth * 0.85,
-                        child: BlocBuilder<DataManageBloc, DataManageState>(
-                            builder: (context, dataState) {
-                         // context.read<DataManageBloc>().add(DataManageLoadEvent(credentials: routes));
-                          print(dataState);
-                          if (dataState is DataManageInitial) {
-
-                            return Row(
+                          Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                CircularPercentIndicator(
-                                    percent: dataState.data!.ph! /100,
-                                    progressColor: Colors.green,
-                                    lineWidth: 10,
-                                    animation: true,
-                                    animationDuration: 1200,
-                                    center: Text("${dataState.data!.ph}",
-                                        style: GoogleFonts.roboto(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold)),
-                                    footer: Text('PH',
-                                        style: GoogleFonts.roboto(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold)),
-                                    radius: 30),
-                                CircularPercentIndicator(
-                                    percent: dataState.data!.humidity!/100,
-                                    lineWidth: 10,
-                                    animation: true,
-                                    progressColor: Colors.blue,
-                                    animationDuration: 1200,
-                                    center: Text("${dataState.data!.humidity}",
-                                        style: GoogleFonts.roboto(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold)),
-                                    footer: Text('Humidy',
-                                        style: GoogleFonts.roboto(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold)),
-                                    radius: 30),
-                                CircularPercentIndicator(
-                                    percent:dataState.data!.soils!/100,
-                                    lineWidth: 10,
-                                    animation: true,
-                                    progressColor: Colors.brown,
-                                    animationDuration: 1200,
-                                    center: Text("${dataState.data!.soils}",
-                                        style: GoogleFonts.roboto(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold)),
-                                    footer: Text('Soil',
-                                        style: GoogleFonts.roboto(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold)),
-                                    radius: 30)
-                              ],
-                            );
-                          // }
-                          // else if (dataState is DataManageInitial) {
-                          //   return BlocListener<DataManageBloc, DataManageState>(listener: (context, state) {
-                          //     if (state is DataManageInitial) {
-                          //       context.read<DataManageBloc>().add(DataManageRenewCredential(credentials: routes));
-                          //     }
-                          //   },
-                          //     child: SizedBox(
-                          //       width: 10,
-                          //       height: 10,
-                          //       child: CircularProgressIndicator(),
-                          //     ),
-                          //   );
-                          }
-                          return SizedBox(
-                            width: screenWidth * 0.85,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                CircularPercentIndicator(
-                                    percent: 0.8,
-                                    progressColor: Colors.green,
-                                    lineWidth: 10,
-                                    animation: true,
-                                    animationDuration: 1200,
-                                    center: Text("0",
-                                        style: GoogleFonts.roboto(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold)),
-                                    footer: Text('PH',
-                                        style: GoogleFonts.roboto(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold)),
-                                    radius: 30),
-                                CircularPercentIndicator(
-                                    percent: 0.3,
-                                    lineWidth: 10,
-                                    animation: true,
-                                    progressColor: Colors.blue,
-                                    animationDuration: 1200,
-                                    center: Text("0",
-                                        style: GoogleFonts.roboto(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold)),
-                                    footer: Text('Humidy',
-                                        style: GoogleFonts.roboto(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold)),
-                                    radius: 30),
-                                CircularPercentIndicator(
-                                    percent: 0.5,
-                                    lineWidth: 10,
-                                    animation: true,
-                                    progressColor: Colors.brown,
-                                    animationDuration: 1200,
-                                    center: Text("0",
-                                        style: GoogleFonts.roboto(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold)),
-                                    footer: Text('Soil',
-                                        style: GoogleFonts.roboto(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold)),
-                                    radius: 30)
-                              ],
-                            ),
-                          );
-                        }),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      SizedBox(
-                        width: screenWidth * 0.85,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text("Humidity graph",
-                                style: GoogleFonts.roboto(
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.bold,
-                                )),
-                            DropdownButton(
-                                items: [
-                                  DropdownMenuItem(
-                                      child: Text("Year"),
-                                      value: "Year",
-                                      onTap: () {}),
-                                  DropdownMenuItem(
-                                      child: Text("Month"),
-                                      value: "Month",
-                                      onTap: () {}),
-                                  DropdownMenuItem(
-                                      child: Text("Week"),
-                                      value: "Week",
-                                      onTap: () {}),
-                                  DropdownMenuItem(
-                                      child: Text("Day"),
-                                      value: "Day",
-                                      onTap: () {}),
-                                ],
-                                value: values,
-                                onChanged: (value) {
-                                  values = value.toString();
-                                })
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: screenHeight * 0.02,
-                      ),
-                      SizedBox(
-                        width: screenWidth * 0.80,
-                        height: screenHeight * 0.25,
-                        child: AspectRatio(
-                          aspectRatio: 1.4,
-                          child: AspectRatio(
-                            aspectRatio: 1.30,
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                right: 18,
-                                left: 12,
-                                top: 24,
-                                bottom: 12,
-                              ),
-                              child: LineChart(
-                                showAvg ? avgData() : mainData(),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ))),
-                  state.state
-                      ? Container(
-                          height: screenHeight,
-                          width: screenWidth,
-                          color: Colors.black54,
-                          child: LayoutBuilder(builder: (context, constraints) {
-                            return Column(
-                              children: [
-                                SizedBox(
-                                  width: constraints.maxWidth * 0.95,
-                                  height: screenHeight * 0.9,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                IconButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    icon: Icon(Icons.arrow_back_ios_new)),
+                                Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     children: [
-                                      BouttonMenu(size: 180, title: 'chat whit gerom', icon: Icons.rocket_launch, color: Colors.redAccent, func: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => ChatPage(),
-                                          )
-                                        );
-                                      },),
+                                      Text(
+                                        "My Pineapple Farm",
+                                        style: GoogleFonts.roboto(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                            color: Color(0xFF3E3E41)),
+                                      ),
+                                      Text("Douala 5 , Akwa boulevard",
+                                          style: GoogleFonts.roboto(
+                                              fontSize: 10,
+                                              fontWeight: FontWeight.bold))
+                                    ]),
+                                IconButton(
+                                    onPressed: () {},
+                                    icon: Icon(Icons.more_horiz_outlined))
+                              ]),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Stack(
+                            children: [
+                              AspectRatio(
+                                aspectRatio: 1.5,
+                                child: Image.asset("assets/grow.gif"),
+                              ),
+                              //emoji smile
 
-                                      BouttonMenu(
-                                              size: 100,
-                                              title: 'Humidity',
-                                              icon: Icons.water_drop,
-                                              color: Colors.blue, func: () {  },)
-                                          .animate()
-                                          .slideY(
-                                            duration: const Duration(
-                                                milliseconds: 500),
-                                            curve: Curves.linear,
-                                          ),
-
-                                      BouttonMenu(
-                                              size: 75,
-                                              title: 'Soils',
-                                              icon: Icons.south_america,
-                                              color: Colors.brown, func: () {  },)
-                                          .animate()
-                                          .slideY(
-                                            duration: const Duration(
-                                                milliseconds: 600),
-                                            curve: Curves.linear,
-                                          ),
-                                      BouttonMenu(
-                                              size: 55,
-                                              title: 'Ph',
-                                              icon: Icons.thermostat,
-                                              color: Colors.green, func: () {  },)
-                                          .animate()
-                                          .slideY(
-                                            duration: const Duration(
-                                                milliseconds: 700),
-                                            curve: Curves.linear,
-                                          ),
-
-                                      //  BouttonMenu(size: 100, title: 'Evapotranspiration', icon: Icons.water_drop, color: Colors.blue),
-                                    ],
-                                  ),
+                              Positioned(
+                                  right: 30,
+                                  child: Text('😁️',
+                                      style: GoogleFonts.roboto(
+                                          fontSize: 30,
+                                          fontWeight: FontWeight.bold))),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          SizedBox(
+                            width: screenWidth * 0.85,
+                            child: BlocBuilder<DataManageBloc, DataManageState>(
+                                builder: (context, dataState) {
+                              // context.read<DataManageBloc>().add(DataManageLoadEvent(credentials: routes));
+                              print(dataState);
+                              if (dataState is DataManageInitial) {
+                                return Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    CircularPercentIndicator(
+                                        percent: dataState.data!.ph! / 100,
+                                        progressColor: Colors.green,
+                                        lineWidth: 10,
+                                        animation: true,
+                                        animationDuration: 1200,
+                                        center: Text("${dataState.data!.ph}",
+                                            style: GoogleFonts.roboto(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold)),
+                                        footer: Text('PH',
+                                            style: GoogleFonts.roboto(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold)),
+                                        radius: 30),
+                                    CircularPercentIndicator(
+                                        percent:
+                                            dataState.data!.humidity! / 100,
+                                        lineWidth: 10,
+                                        animation: true,
+                                        progressColor: Colors.blue,
+                                        animationDuration: 1200,
+                                        center: Text(
+                                            "${dataState.data!.humidity}",
+                                            style: GoogleFonts.roboto(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold)),
+                                        footer: Text('Humidy',
+                                            style: GoogleFonts.roboto(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold)),
+                                        radius: 30),
+                                    CircularPercentIndicator(
+                                        percent: dataState.data!.soils! / 100,
+                                        lineWidth: 10,
+                                        animation: true,
+                                        progressColor: Colors.brown,
+                                        animationDuration: 1200,
+                                        center: Text("${dataState.data!.soils}",
+                                            style: GoogleFonts.roboto(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold)),
+                                        footer: Text('Soil',
+                                            style: GoogleFonts.roboto(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold)),
+                                        radius: 30)
+                                  ],
+                                );
+                                // }
+                                // else if (dataState is DataManageInitial) {
+                                //   return BlocListener<DataManageBloc, DataManageState>(listener: (context, state) {
+                                //     if (state is DataManageInitial) {
+                                //       context.read<DataManageBloc>().add(DataManageRenewCredential(credentials: routes));
+                                //     }
+                                //   },
+                                //     child: SizedBox(
+                                //       width: 10,
+                                //       height: 10,
+                                //       child: CircularProgressIndicator(),
+                                //     ),
+                                //   );
+                              }
+                              return SizedBox(
+                                width: screenWidth * 0.85,
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    CircularPercentIndicator(
+                                        percent: 0.8,
+                                        progressColor: Colors.green,
+                                        lineWidth: 10,
+                                        animation: true,
+                                        animationDuration: 1200,
+                                        center: Text("0",
+                                            style: GoogleFonts.roboto(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold)),
+                                        footer: Text('PH',
+                                            style: GoogleFonts.roboto(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold)),
+                                        radius: 30),
+                                    CircularPercentIndicator(
+                                        percent: 0.3,
+                                        lineWidth: 10,
+                                        animation: true,
+                                        progressColor: Colors.blue,
+                                        animationDuration: 1200,
+                                        center: Text("0",
+                                            style: GoogleFonts.roboto(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold)),
+                                        footer: Text('Humidy',
+                                            style: GoogleFonts.roboto(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold)),
+                                        radius: 30),
+                                    CircularPercentIndicator(
+                                        percent: 0.5,
+                                        lineWidth: 10,
+                                        animation: true,
+                                        progressColor: Colors.brown,
+                                        animationDuration: 1200,
+                                        center: Text("0",
+                                            style: GoogleFonts.roboto(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold)),
+                                        footer: Text('Soil',
+                                            style: GoogleFonts.roboto(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold)),
+                                        radius: 30)
+                                  ],
                                 ),
-                              ],
-                            );
-                          }),
-                        )
-                          .animate()
-                          .fadeIn(duration: const Duration(milliseconds: 500))
-                      : Container()
-                ]));
-          }
-          return CircularProgressIndicator();
-        }));
-  }
+                              );
+                            }),
+                          ),
+                          BlocBuilder<DataChartBloc, DataChartState>(
+                            builder: (context, state) {
+                              return BlocBuilder<BottomChartBloc,
+                                  BottomChartState>(
+                                builder: (context, BottoMstatestate) {
+                                  return Column(
+                                    children: [
+                                      SizedBox(
+                                        width: screenWidth * 0.85,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text("${state.title} graph",
+                                                style: GoogleFonts.roboto(
+                                                  fontSize: 25,
+                                                  fontWeight: FontWeight.bold,
+                                                )),
+                                            DropdownButton(
+                                                items: [
+                                                  DropdownMenuItem(
+                                                      child: Text("Year"),
+                                                      value: "Year",
+                                                      onTap: () {
+                                                        period = "Year";
+                                                        context
+                                                            .read<
+                                                                BottomChartBloc>()
+                                                            .add(
+                                                                BottomChartEventCLickedYears());
+                                                      }),
+                                                  DropdownMenuItem(
+                                                      child: Text("Month"),
+                                                      value: "Month",
+                                                      onTap: () {
+                                                        period = "Month";
+                                                        context
+                                                            .read<
+                                                                BottomChartBloc>()
+                                                            .add(
+                                                                BottomChartEventCLickedMonths());
+                                                      }),
+                                                  DropdownMenuItem(
+                                                      child: Text("Week"),
+                                                      value: "Week",
+                                                      onTap: () {
+                                                        period = "Week";
+                                                      }),
+                                                  DropdownMenuItem(
+                                                      child: Text("Day"),
+                                                      value: "Day",
+                                                      onTap: () {
+                                                        period = "Day";
+                                                        context
+                                                            .read<
+                                                                BottomChartBloc>()
+                                                            .add(
+                                                                BottomChartEventCLickedDyas());
+                                                      }),
+                                                ],
+                                                value: values,
+                                                onChanged: (value) {
+                                                  values = value.toString();
+                                                })
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: screenHeight * 0.02,
+                                      ),
+                                      SizedBox(
+                                        width: screenWidth * 0.80,
+                                        height: screenHeight * 0.25,
+                                        child: AspectRatio(
+                                          aspectRatio: 1.4,
+                                          child: AspectRatio(
+                                            aspectRatio: 1.30,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                right: 18,
+                                                left: 12,
+                                                top: 24,
+                                                bottom: 12,
+                                              ),
+                                              child: LineChart(
+                                                mainData(
+                                                    state, BottoMstatestate),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                        ],
+                      ))),
+                      state.state
+                          ? Container(
+                              height: screenHeight,
+                              width: screenWidth,
+                              color: Colors.black54,
+                              child: LayoutBuilder(
+                                  builder: (context, constraints) {
+                                return Column(
+                                  children: [
+                                    SizedBox(
+                                      width: constraints.maxWidth * 0.95,
+                                      height: screenHeight * 0.9,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        children: [
+                                          BouttonMenu(
+                                            size: 180,
+                                            title: 'chat whit gerom',
+                                            icon: Icons.rocket_launch,
+                                            color: Colors.redAccent,
+                                            func: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        ChatPage(),
+                                                  ));
+                                            },
+                                          ),
 
-  LineChartData avgData() {
-    return LineChartData(
-      lineTouchData: const LineTouchData(enabled: false),
-      gridData: FlGridData(
-        show: true,
-        drawHorizontalLine: true,
-        verticalInterval: 1,
-        horizontalInterval: 1,
-        getDrawingVerticalLine: (value) {
-          return const FlLine(
-            color: Color(0xff37434d),
-            strokeWidth: 1,
-          );
-        },
-        getDrawingHorizontalLine: (value) {
-          return const FlLine(
-            color: Color(0xff37434d),
-            strokeWidth: 1,
-          );
-        },
-      ),
-      titlesData: FlTitlesData(
-        show: true,
-        bottomTitles: AxisTitles(
-          sideTitles: SideTitles(
-            showTitles: true,
-            reservedSize: 30,
-            getTitlesWidget: bottomTitleWidgets,
-            interval: 3,
-          ),
-        ),
-        leftTitles: AxisTitles(
-          sideTitles: SideTitles(
-            showTitles: true,
-            getTitlesWidget: leftTitleWidgets,
-            reservedSize: 42,
-            interval: 1,
-          ),
-        ),
-        topTitles: const AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-        rightTitles: const AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-      ),
-      borderData: FlBorderData(
-        show: true,
-        border: Border.all(color: const Color(0xff37434d)),
-      ),
-      minX: 0,
-      maxX: 11,
-      minY: 0,
-      maxY: 6,
-      lineBarsData: [
-        LineChartBarData(
-          spots: getSpots(),
-          isCurved: true,
-          gradient: LinearGradient(
-            colors: [
-              ColorTween(begin: gradientColors[0], end: gradientColors[1])
-                  .lerp(0.2)!,
-              ColorTween(begin: gradientColors[1], end: gradientColors[0])
-                  .lerp(0.2)!,
-            ],
-          ),
-          barWidth: 5,
-          isStrokeCapRound: true,
-          dotData: const FlDotData(
-            show: false,
-          ),
-          belowBarData: BarAreaData(
-            show: true,
-            gradient: LinearGradient(
-              colors: [
-                ColorTween(begin: gradientColors[0], end: gradientColors[1])
-                    .lerp(0.2)!
-                    .withOpacity(1),
-                ColorTween(begin: gradientColors[0], end: gradientColors[1])
-                    .lerp(0.2)!
-                    .withOpacity(1),
-              ],
-            ),
-          ),
-        ),
-      ],
+                                          BouttonMenu(
+                                            size: 100,
+                                            title: 'Humidity',
+                                            icon: Icons.water_drop,
+                                            color: Colors.blue,
+                                            func: () {
+                                              context.read<DataChartBloc>().add(
+                                                  DataChartHumidyEvent(
+                                                      period: period));
+                                            },
+                                          ).animate().slideY(
+                                                duration: const Duration(
+                                                    milliseconds: 500),
+                                                curve: Curves.linear,
+                                              ),
+
+                                          BouttonMenu(
+                                            size: 75,
+                                            title: 'Soils',
+                                            icon: Icons.south_america,
+                                            color: Colors.brown,
+                                            func: () {
+                                              context.read<DataChartBloc>().add(
+                                                  DataChartSoilsEvent(
+                                                      period: period));
+                                            },
+                                          ).animate().slideY(
+                                                duration: const Duration(
+                                                    milliseconds: 600),
+                                                curve: Curves.linear,
+                                              ),
+                                          BouttonMenu(
+                                            size: 55,
+                                            title: 'Ph',
+                                            icon: Icons.thermostat,
+                                            color: Colors.green,
+                                            func: () {
+                                              context.read<DataChartBloc>().add(
+                                                  DataChartPhEvent(
+                                                      period: period));
+                                            },
+                                          ).animate().slideY(
+                                                duration: const Duration(
+                                                    milliseconds: 700),
+                                                curve: Curves.linear,
+                                              ),
+
+                                          //  BouttonMenu(size: 100, title: 'Evapotranspiration', icon: Icons.water_drop, color: Colors.blue),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              }),
+                            ).animate().fadeIn(
+                              duration: const Duration(milliseconds: 500))
+                          : Container()
+                    ])),
+              );
+            }
+            return CircularProgressIndicator();
+          })),
     );
   }
+
+  // LineChartData avgData() {
+  //   return LineChartData(
+  //     lineTouchData: const LineTouchData(enabled: false),
+  //     gridData: FlGridData(
+  //       show: true,
+  //       drawHorizontalLine: true,
+  //       verticalInterval: 1,
+  //       horizontalInterval: 1,
+  //       getDrawingVerticalLine: (value) {
+  //         return const FlLine(
+  //           color: Color(0xff37434d),
+  //           strokeWidth: 1,
+  //         );
+  //       },
+  //       getDrawingHorizontalLine: (value) {
+  //         return const FlLine(
+  //           color: Color(0xff37434d),
+  //           strokeWidth: 1,
+  //         );
+  //       },
+  //     ),
+  //     titlesData: FlTitlesData(
+  //       show: true,
+  //       bottomTitles: AxisTitles(
+  //         sideTitles: SideTitles(
+  //           showTitles: true,
+  //           reservedSize: 30,
+  //           getTitlesWidget: bottomTitleWidgets,
+  //           interval: 3,
+  //         ),
+  //       ),
+  //       leftTitles: AxisTitles(
+  //         sideTitles: SideTitles(
+  //           showTitles: true,
+  //           getTitlesWidget: leftTitleWidgets,
+  //           reservedSize: 42,
+  //           interval: 1,
+  //         ),
+  //       ),
+  //       topTitles: const AxisTitles(
+  //         sideTitles: SideTitles(showTitles: false),
+  //       ),
+  //       rightTitles: const AxisTitles(
+  //         sideTitles: SideTitles(showTitles: false),
+  //       ),
+  //     ),
+  //     borderData: FlBorderData(
+  //       show: true,
+  //       border: Border.all(color: const Color(0xff37434d)),
+  //     ),
+  //     minX: 0,
+  //     maxX: 11,
+  //     minY: 0,
+  //     maxY: 6,
+  //     lineBarsData: [
+  //       LineChartBarData(
+  //         spots: getSpots(),
+  //         isCurved: true,
+  //         gradient: LinearGradient(
+  //           colors: [
+  //             ColorTween(begin: gradientColors[0], end: gradientColors[1])
+  //                 .lerp(0.2)!,
+  //             ColorTween(begin: gradientColors[1], end: gradientColors[0])
+  //                 .lerp(0.2)!,
+  //           ],
+  //         ),
+  //         barWidth: 5,
+  //         isStrokeCapRound: true,
+  //         dotData: const FlDotData(
+  //           show: false,
+  //         ),
+  //         belowBarData: BarAreaData(
+  //           show: true,
+  //           gradient: LinearGradient(
+  //             colors: [
+  //               ColorTween(begin: gradientColors[0], end: gradientColors[1])
+  //                   .lerp(0.2)!
+  //                   .withOpacity(1),
+  //               ColorTween(begin: gradientColors[0], end: gradientColors[1])
+  //                   .lerp(0.2)!
+  //                   .withOpacity(1),
+  //             ],
+  //           ),
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  // }
 
   Widget leftTitleWidgets(double value, TitleMeta meta) {
     var style = GoogleFonts.roboto(
@@ -510,17 +583,18 @@ class DashboardV2 extends StatelessWidget {
       fontWeight: FontWeight.w500,
     );
     Widget text;
+    //print(value.toInt());
     switch (value.toInt()) {
       case 1:
         text = Text('6h', style: style);
         break;
-      case 20:
+      case 10:
         text = Text('8h', style: style);
         break;
-      case 35:
+      case 20:
         text = Text('10h', style: style);
         break;
-      case 50:
+      case 28:
         text = Text('12h', style: style);
         break;
       default:
@@ -534,12 +608,13 @@ class DashboardV2 extends StatelessWidget {
     );
   }
 
-  LineChartData mainData() {
+  LineChartData mainData(
+      DataChartState state, BottomChartState bottomChartState) {
     return LineChartData(
       gridData: FlGridData(
         show: true,
         drawVerticalLine: false,
-        horizontalInterval: 15,
+        horizontalInterval: state.MaxY/5,
         verticalInterval: 20,
         getDrawingHorizontalLine: (value) {
           return const FlLine(
@@ -568,14 +643,14 @@ class DashboardV2 extends StatelessWidget {
             showTitles: true,
             reservedSize: 40,
             interval: 1,
-            getTitlesWidget: bottomTitleWidgets,
+            getTitlesWidget: bottomChartState.bottomTitleWidget,
           ),
         ),
         leftTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
             interval: 1,
-            getTitlesWidget: leftTitleWidgets,
+            getTitlesWidget: state.leftTitleWidget,
             reservedSize: 42,
           ),
         ),
@@ -585,19 +660,23 @@ class DashboardV2 extends StatelessWidget {
         border: Border.all(color: const Color(0xff37434d)),
       ),
       minX: 0,
-      maxX: 50,
+      maxX: state.MaxX,
       minY: 0,
-      maxY: 50,
+      maxY: state.MaxY,
       lineBarsData: [
         LineChartBarData(
-          spots: [
-            FlSpot(0, 0),
-            FlSpot(10, 10),
-            FlSpot(20, 16),
-            FlSpot(30, 30),
-            FlSpot(40, 20),
-            FlSpot(50, 40),
-          ],
+          spots: state.datas
+              .map((e) => FlSpot(e.$2+0.0, e.$1+0.0))
+              .toList(),
+          // [
+          //FlSpot(0, 0),
+          //   FlSpot(10, 10),
+          //   FlSpot(20, 16),
+          //   FlSpot(30, 30),
+          //   FlSpot(40, 20),
+          //   FlSpot(50, 40),
+          // ]
+          //,
           isCurved: true,
           gradient: LinearGradient(
             colors: [Colors.red, Colors.blue].map((color) => color).toList(),

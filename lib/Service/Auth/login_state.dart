@@ -1,8 +1,11 @@
 part of 'login_bloc.dart';
 
 
-abstract class LoginState {
+abstract class LoginState extends Equatable{
   late Widget page;
+  LoginState();
+  @override
+  List<Object> get props => [];
   RoutingState() {}
 }
 
@@ -29,7 +32,9 @@ class LoginSucefull extends LoginState{
 }
 
 class LoginFailed extends LoginState{
+  final String message;
+  LoginFailed({required this.message});
 
-
-
+  @override
+  List<Object> get props => [message];
 }

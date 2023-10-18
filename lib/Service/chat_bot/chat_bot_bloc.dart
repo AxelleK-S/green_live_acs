@@ -17,7 +17,7 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
       print(response);
       print('message');
       if (response != null){ ///TODO : put the great condition
-        emit(MessageLoaded(response));
+        emit(MessageLoaded(response.toString()));
       } else {
         emit(const MessageFailed('error while sending the message please retry'));
       }
